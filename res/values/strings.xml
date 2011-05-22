@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">findMe</string>
+    <string name="main_login">I\'m already a findMe user</string>
+    <string name="main_register">I\'m new to findMe</string>
+    
+	<!-- Current User Status -->
+    <string name="userStatus1">Online</string>  
+    <string name="userStatus2">Busy</string>  
+    <string name="userStatus3">Away</string>  
+    <string name="userStatus4">Invisible</string>  
+    
+    <!--  Navigation -->
+    <string name="navigation_nearby">Nearby</string>
+    <string name="navigation_friends">Friends</string>
+    <string name="navigation_search">Search</string>
+    <string name="navigation_chat">Chat</string>
+</resources>  

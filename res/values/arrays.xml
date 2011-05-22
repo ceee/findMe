@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<resources>  
+    <string-array name="userStatusList">  
+        <item>@string/userStatus1</item>  
+        <item>@string/userStatus2</item>  
+        <item>@string/userStatus3</item>  
+        <item>@string/userStatus4</item>  
+    </string-array>  
+</resources>  

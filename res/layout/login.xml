@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+	 xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="fill_parent"  
+     android:orientation="vertical"
+     android:background="@drawable/background_dark"
+     android:layout_height="fill_parent"
+     android:padding="20px">  
+
+	<EditText  
+	    android:id="@+id/EditTextLoginMail"  
+	    android:layout_height="wrap_content"  
+	    android:hint="E-Mail"  
+	    android:inputType="textEmailAddress"
+	    android:layout_width="fill_parent"
+	    android:layout_marginTop="80dip">  
+	</EditText>  
+
+	<EditText  
+	    android:id="@+id/EditTextLoginPassword"  
+	    android:layout_height="wrap_content"  
+	    android:hint="***********"  
+	    android:inputType="textPassword"  
+	    android:layout_width="fill_parent"
+	    android:password="true">  
+	</EditText> 
+
+	<TextView  
+	    android:id="@+id/TextViewTitle"  
+	    android:layout_width="wrap_content"  
+	    android:layout_height="wrap_content"  
+	    android:text="Status:"  
+	    android:textSize="7pt"
+	    android:textColor="#39525f"
+	    android:layout_marginTop="5dip"
+	    android:layout_marginBottom="2dip">  
+	</TextView>
+	<Spinner  
+	    android:id="@+id/SpinnerLoginUserStatus"  
+	    android:layout_height="wrap_content"  
+	    android:prompt="@string/userStatus1"  
+	    android:layout_width="150dip"
+	    android:entries="@array/userStatusList">  
+	</Spinner>  
+	
+	<Button  
+	    android:id="@+id/ButtonLoginUser"  
+	    android:layout_height="wrap_content"  
+	    android:text="Login"  
+	    android:onClick="loginUserHandler"  
+	    android:layout_width="fill_parent"
+	    android:layout_marginTop="50dip">  
+	</Button>  
+
+</LinearLayout> 

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout  
+    	xmlns:android="http://schemas.android.com/apk/res/android"  
+        android:layout_width="fill_parent"  
+        android:orientation="vertical"  
+        android:background="@drawable/background_dark"
+	     android:layout_height="fill_parent"
+	     android:padding="20px">  
+	
+	
+		<TextView  
+		    android:id="@+id/TextViewTitle"  
+		    android:layout_width="wrap_content"  
+		    android:layout_height="wrap_content"  
+		    android:text="Information:"  
+		    android:textSize="7pt"
+		    android:textColor="#39525f"
+		    android:layout_marginTop="80dip"
+		    android:layout_marginBottom="2dip">  
+		</TextView>
+		<EditText  
+		    android:id="@+id/EditTextRegistrationName"  
+		    android:layout_height="wrap_content"  
+		    android:hint="Your name"  
+		    android:inputType="textPersonName"  
+		    android:layout_width="fill_parent"
+		    android:textSize="7pt">  
+		</EditText> 
+		<EditText  
+		    android:id="@+id/EditTextRegistrationMail"  
+		    android:layout_height="wrap_content"  
+		    android:hint="E-Mail"  
+		    android:inputType="textEmailAddress"
+		    android:layout_width="fill_parent">  
+		</EditText>  
+		
+		<TextView  
+		    android:id="@+id/TextViewTitle"  
+		    android:layout_width="wrap_content"  
+		    android:layout_height="wrap_content"  
+		    android:text="Password:"  
+		    android:textSize="7pt"
+		    android:textColor="#39525f"
+		    android:layout_marginTop="5dip"
+		    android:layout_marginBottom="2dip">  
+		</TextView>
+		<EditText  
+		    android:id="@+id/EditTextRegistrationPassword"  
+		    android:layout_height="wrap_content"  
+		    android:hint="***********"  
+		    android:inputType="textPassword"  
+		    android:layout_width="fill_parent"
+		    android:password="true">  
+		</EditText> 
+		
+		<Button  
+		    android:id="@+id/ButtonRegisterUser"  
+		    android:layout_height="wrap_content"  
+		    android:text="Register"  
+		    android:onClick="registerUserHandler"  
+		    android:layout_width="fill_parent"
+		    android:layout_marginTop="50dip">  
+		</Button>  
+	
+	</LinearLayout> 

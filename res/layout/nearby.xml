@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	 xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="fill_parent"  
+     android:orientation="horizontal"
+     android:layout_height="fill_parent"
+     android:paddingLeft="20px"
+     android:paddingRight="20px">
+     
+     <Button  
+		    android:id="@+id/ButtonNearby"  
+		    android:text="@string/navigation_nearby"  
+		    android:onClick="drawNearbyHandler"  
+		    android:layout_width="70px" 
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="top|left" 
+		    android:layout_marginBottom="20px">  
+		</Button>
+	<Button  
+		    android:id="@+id/ButtonFriends"  
+		    android:text="@string/navigation_friends"  
+		    android:onClick="drawFriendsHandler"  
+		    android:layout_width="70px" 
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="top|left" 
+		    android:layout_marginBottom="20px">  
+		</Button>
+	<!--<Button  
+		    android:id="@+id/ButtonChat"  
+		    android:text="@string/navigation_chat"  
+		    android:onClick="drawChatHandler"  
+		    android:layout_width="70px" 
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="top|left" 
+		    android:layout_marginBottom="20px">  
+		</Button>-->
+	<Button  
+		    android:id="@+id/ButtonSearch"  
+		    android:text="@string/navigation_search"  
+		    android:onClick="drawSearchHandler"  
+		    android:layout_width="70px" 
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="top|left" 
+		    android:layout_marginBottom="20px">  
+		</Button>
+	<Button  
+		    android:id="@+id/ButtonUpdate"  
+		    android:text="O"   
+		    android:onClick="updateLocationHandler"
+		    android:layout_width="20px" 
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="top|left" 
+		    android:layout_marginBottom="20px">  
+		</Button>
+</LinearLayout>
