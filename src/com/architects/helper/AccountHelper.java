@@ -9,6 +9,7 @@ import java.security.NoSuchAlgorithmException;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -17,8 +18,12 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.HTTP;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 public class AccountHelper 
 {
+	private static final String TAG = "test";
+	
 	public static String doHttpPost(String url_end, JSONObject j)
 	{
 		String url = "http://www.artistandarchitects.at/findme/" + url_end;
@@ -41,7 +46,7 @@ public class AccountHelper
 	        if (response != null) 
 	        {
 	            InputStream in = response.getEntity().getContent();
-	            return AccountHelper.convertStreamToString(in);
+	            return convertStreamToString(in);
 	        }
 	    } 
 	    catch (Exception e) 
@@ -50,6 +55,36 @@ public class AccountHelper
 	    }
 	    return "";
 	}
+	
+	
+	public static JSONObject doHttpGet(String url_end)
+	{
+		String url = "http://www.artistandarchitects.at/findme/" + url_end;
+		
+		HttpClient client = new DefaultHttpClient();
+	    HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000);
+	    HttpResponse response;
+	    
+	    try
+	    {
+	        HttpGet httpGet = new HttpGet(url);
+	        
+	        response = client.execute(httpGet);
+	        if (response != null) 
+	        {
+	            InputStream in = response.getEntity().getContent();
+	            JSONObject json=new JSONObject(convertStreamToString(in));
+	            Log.i(TAG,convertStreamToString(in));  
+	            return json;
+	        }
+	    } 
+	    catch (Exception e) 
+	    {
+	        e.printStackTrace();
+	    }
+	    return new JSONObject();
+	}
+	
 	
     public static String createHashMd5(String str) 
     {

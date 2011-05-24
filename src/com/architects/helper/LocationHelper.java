@@ -1,8 +1,6 @@
 package com.architects.helper;
 
-import com.architects.findme.Nearby;
-
-import android.R;
+import com.architects.findme.R;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -15,20 +13,19 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class LocationHelper extends Activity {
+public class LocationHelper
+{
     
     private static final long MINIMUM_DISTANCE_CHANGE_FOR_UPDATES = 1; // in Meters
-    private static final long MINIMUM_TIME_BETWEEN_UPDATES = 1000; // in Milliseconds
+    private static final long MINIMUM_TIME_BETWEEN_UPDATES = 100; // in Milliseconds
     
+	private static final String TAG = "test";
     protected LocationManager locationManager;
+    protected Context myContext;
     
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        
-        super.onCreate(savedInstanceState);
-        //setContentView(R.layout.main);
-        
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+    public LocationHelper(Context myContext){
+    	this.myContext = myContext;
+        locationManager = (LocationManager) myContext.getSystemService(Context.LOCATION_SERVICE);
         
         locationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER, 
@@ -40,19 +37,22 @@ public class LocationHelper extends Activity {
         
     public void updateLocationHandler(View button) 
     {
-    	showCurrentLocation();
+    	updateLocation();
     } 
+    public void updateLocation()
+    {
+    	showCurrentLocation();
+    }
 
     protected void showCurrentLocation() {
 
         Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
         if (location != null) {
             String message = String.format(
                     "Current Location \n Longitude: %1$s \n Latitude: %2$s",
                     location.getLongitude(), location.getLatitude()
             );
-            Toast.makeText(LocationHelper.this, message,
+            Toast.makeText(myContext, message,
                     Toast.LENGTH_LONG).show();
         }
     }   
@@ -64,26 +64,25 @@ public class LocationHelper extends Activity {
                     "New Location \n Longitude: %1$s \n Latitude: %2$s",
                     location.getLongitude(), location.getLatitude()
             );
-            Toast.makeText(LocationHelper.this, message, Toast.LENGTH_LONG).show();
+            Toast.makeText(myContext, message, Toast.LENGTH_LONG).show();
         }
 
         public void onStatusChanged(String s, int i, Bundle b) {
-            Toast.makeText(LocationHelper.this, "Provider status changed",
+            Toast.makeText(myContext, "Provider status changed",
                     Toast.LENGTH_LONG).show();
         }
 
         public void onProviderDisabled(String s) {
-            Toast.makeText(LocationHelper.this,
+            Toast.makeText(myContext,
                     "Provider disabled by the user. GPS turned off",
                     Toast.LENGTH_LONG).show();
         }
 
         public void onProviderEnabled(String s) {
-            Toast.makeText(LocationHelper.this,
+            Toast.makeText(myContext,
                     "Provider enabled by the user. GPS turned on",
                     Toast.LENGTH_LONG).show();
         }
 
     }
-    
 }

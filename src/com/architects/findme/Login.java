@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -23,6 +24,8 @@ public class Login extends Activity
     public void onCreate(Bundle savedInstanceState) 
     {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        
         setContentView(R.layout.login);
     }
 	
@@ -34,6 +37,9 @@ public class Login extends Activity
 			j.put("mail", str[0]);
 			j.put("password", AccountHelper.createHashMd5(str[1]));
 			j.put("status", str[2]);
+			
+			j.put("longitude", -122.084095);
+			j.put("latitude", 37.422006);
 
 			return AccountHelper.doHttpPost("login_user.php", j);
         }
