@@ -45,9 +45,9 @@
         		  android:configChanges="keyboardHidden|orientation"
         		  android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".Tabs"
-				  android:configChanges="orientation" 
-				  android:label="FindMe"
+        <activity android:name=".FindMeMenu"
+				  android:configChanges="keyboardHidden|orientation" 
+				  android:label="Menu"
 				  android:screenOrientation="portrait">
 		</activity>
     </application>

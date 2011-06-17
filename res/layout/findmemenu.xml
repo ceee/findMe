@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout  
+	xmlns:android="http://schemas.android.com/apk/res/android"  
+    android:layout_width="fill_parent"  
+    android:orientation="vertical"  
+    android:background="@drawable/background_dark"
+    android:layout_height="fill_parent"
+    android:padding="20px">  
+
+	<ImageButton android:id="@+id/nearby"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:src="@drawable/nearby"
+		android:paddingTop="80px"
+		android:paddingBottom="10px"
+		android:background="@null" />
+	<ImageButton android:id="@+id/friends"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:src="@drawable/friends"
+		android:paddingBottom="10px"
+		android:background="@null" />
+	<ImageButton android:id="@+id/messages"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:src="@drawable/messages"
+		android:paddingBottom="10px"
+		android:background="@null" />
+	<ImageButton android:id="@+id/search"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:src="@drawable/search"
+		android:paddingBottom="10px"
+		android:background="@null" />
+	<ImageButton android:id="@+id/me"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:src="@drawable/me"
+		android:paddingBottom="10px"
+		android:background="@null" />
+	<ImageButton android:id="@+id/logout"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:src="@drawable/logout"
+		android:background="@null" />
+</LinearLayout> 

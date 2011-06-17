@@ -82,7 +82,7 @@ public class Login extends Activity
             prefsEditor.putString("status", loginData[2]);
             prefsEditor.commit();
     		
-    		Intent myIntent = new Intent(button.getContext(), Tabs.class);
+    		Intent myIntent = new Intent(button.getContext(), FindMeMenu.class);
             startActivity(myIntent);
     	}
     	else Toast.makeText(this, response, Toast.LENGTH_LONG).show();

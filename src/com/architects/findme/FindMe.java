@@ -1,12 +1,9 @@
 package com.architects.findme;
 
 import com.architects.findme.R;
-import com.architects.findme.R.id;
-import com.architects.findme.R.layout;
-import com.architects.findme.R.menu;
-import com.architects.helper.AccountHelper;
 import com.architects.helper.StateHelper;
 import com.architects.findme.Login;
+import com.architects.findme.FindMeMenu;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -50,7 +47,7 @@ public class FindMe extends Activity
         	Log.v(TAG, response);
         	if(response.compareTo("01") == 0)
         	{
-        		Intent myIntent = new Intent(this, Tabs.class);
+        		Intent myIntent = new Intent(this, FindMeMenu.class);
                 startActivity(myIntent);
         	}
         }  
