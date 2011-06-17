@@ -45,6 +45,11 @@
         		  android:configChanges="keyboardHidden|orientation"
         		  android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".Tabs"
+				  android:configChanges="orientation" 
+				  android:label="FindMe"
+				  android:screenOrientation="portrait">
+		</activity>
     </application>
     
     <uses-permission android:name="android.permission.INTERNET" />

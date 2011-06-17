@@ -8,6 +8,7 @@ import com.architects.helper.AccountHelper;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,18 +19,20 @@ import android.widget.Toast;
 
 public class Login extends Activity 
 {
+	public static final String PREFS_NAME = "LoginCredentials";
 	private static final String TAG = "test";
 	
     @Override
     public void onCreate(Bundle savedInstanceState) 
     {
-        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);        
+        
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         
         setContentView(R.layout.login);
     }
 	
-	public String login(String[] str)
+	public static String login(String[] str)
 	{
 		JSONObject j = new JSONObject();
         try
@@ -67,9 +70,19 @@ public class Login extends Activity
     	String response = login(loginData).trim();
     	Log.v(TAG, response);
     	
+    	
+    	// check if login was successful
     	if(response.compareTo("01") == 0)
     	{
-    		Intent myIntent = new Intent(button.getContext(), Nearby.class);
+    		// save login credentials to storage
+            SharedPreferences preferences = this.getSharedPreferences(PREFS_NAME, MODE_WORLD_READABLE);
+            SharedPreferences.Editor prefsEditor = preferences.edit();
+            prefsEditor.putString("mail", loginData[0]);
+            prefsEditor.putString("password", loginData[1]);
+            prefsEditor.putString("status", loginData[2]);
+            prefsEditor.commit();
+    		
+    		Intent myIntent = new Intent(button.getContext(), Tabs.class);
             startActivity(myIntent);
     	}
     	else Toast.makeText(this, response, Toast.LENGTH_LONG).show();
