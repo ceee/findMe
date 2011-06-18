@@ -1,12 +1,20 @@
 package com.architects.findme;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class FindMeMenu extends Activity 
@@ -46,8 +54,37 @@ public class FindMeMenu extends Activity
     }
     public void searchMenuHandler(View button) 
     {
-    	Intent myIntent = new Intent(button.getContext(), Search.class);
-        startActivity(myIntent);
+    	final AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
+    	LayoutInflater factory = LayoutInflater.from(this);
+    	final View input = factory.inflate(R.layout.search_dialog, null);
+    	
+    	alertbox.setTitle("Search People");
+    	alertbox.setView(input);
+
+    	alertbox.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+    	    public void onClick(DialogInterface dialog, int whichButton) {
+    	    	// get the input value
+    	    	EditText mText;
+    	    	mText = (EditText) input.findViewById(R.id.SearchInput);
+    	    	String text = mText.getText().toString();
+    	    	
+    	    	// redirect to search results
+    	    	Bundle bundle = new Bundle();
+    	    	bundle.putString("query", text);
+
+    	    	Intent newIntent = new Intent(FindMeMenu.this.getApplicationContext(), Search.class);
+    	    	newIntent.putExtras(bundle);
+    	    	startActivityForResult(newIntent, 0);
+    	    }
+    	});
+
+    	alertbox.setNegativeButton("Cancel",
+    	        new DialogInterface.OnClickListener() {
+    	            public void onClick(DialogInterface dialog, int whichButton) {
+    	                dialog.cancel();
+    	            }
+    	        });
+    	alertbox.show();
     }
     public void logoutMenuHandler(View button) 
     {
@@ -66,10 +103,17 @@ public class FindMeMenu extends Activity
             prefsEditor.clear();
             prefsEditor.commit();
             
+            Toast.makeText(button.getContext(), "Logout successful", Toast.LENGTH_LONG).show();
         	Intent myIntent = new Intent(button.getContext(), FindMe.class);
         	startActivity(myIntent);
-        	Toast.makeText(button.getContext(), "Logout successful", Toast.LENGTH_LONG).show();
+        	
         }
         else Toast.makeText(this, "Logout failed. Try again!", Toast.LENGTH_LONG).show(); 
+    }
+    
+    public void searchHandler(View button)
+    {
+    	Intent myIntent = new Intent(button.getContext(), Search.class);
+        startActivity(myIntent);
     }
 }

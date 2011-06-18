@@ -23,22 +23,25 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Nearby extends ListActivity {
+public class Nearby extends Activity {
     
     private static final long MINIMUM_DISTANCE_CHANGE_FOR_UPDATES = 1; // in Meters
     private static final long MINIMUM_TIME_BETWEEN_UPDATES = 100; // in Milliseconds
     
 	private static final String TAG = "test";
     protected LocationManager locationManager;
+    private ListView nearby;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
         
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.nearby);
         
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationManager.requestLocationUpdates(
@@ -91,13 +94,12 @@ public class Nearby extends ListActivity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        
-        setListAdapter(new ArrayAdapter<String>(this, R.layout.nearby_list_item, onlineUser));
+		nearby = (ListView) findViewById(R.id.nearbylist);
+        nearby.setAdapter(new ArrayAdapter<String>(this, R.layout.nearby_list_item, R.id.nearby_list_text, onlineUser));
 
-        ListView lv = getListView();
-        lv.setTextFilterEnabled(true);
+        nearby.setTextFilterEnabled(true);
         
-        lv.setOnItemClickListener(new OnItemClickListener() {
+        nearby.setOnItemClickListener(new OnItemClickListener() {
           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             // When clicked, show a toast with the TextView text
             Toast.makeText(getApplicationContext(), ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
@@ -123,8 +125,7 @@ public class Nearby extends ListActivity {
                     "Current Location \n Longitude: %1$s \n Latitude: %2$s",
                     location.getLongitude(), location.getLatitude()
             );
-            Toast.makeText(Nearby.this, message,
-                    Toast.LENGTH_LONG).show();
+            // Toast.makeText(Nearby.this, message, Toast.LENGTH_LONG).show();
         }
     }   
 
@@ -135,12 +136,11 @@ public class Nearby extends ListActivity {
                     "New Location \n Longitude: %1$s \n Latitude: %2$s",
                     location.getLongitude(), location.getLatitude()
             );
-            Toast.makeText(Nearby.this, message, Toast.LENGTH_LONG).show();
+            //Toast.makeText(Nearby.this, message, Toast.LENGTH_LONG).show();
         }
 
         public void onStatusChanged(String s, int i, Bundle b) {
-            Toast.makeText(Nearby.this, "Provider status changed",
-                    Toast.LENGTH_LONG).show();
+            //Toast.makeText(Nearby.this, "Provider status changed", Toast.LENGTH_LONG).show();
         }
 
         public void onProviderDisabled(String s) {
@@ -177,6 +177,12 @@ public class Nearby extends ListActivity {
     public void drawSearchHandler(View button) 
     {
     	Intent myIntent = new Intent(button.getContext(), Search.class);
+        startActivity(myIntent);
+    }
+    
+    public void enterMenuHandler(View button) 
+    {
+    	Intent myIntent = new Intent(button.getContext(), FindMeMenu.class);
         startActivity(myIntent);
     }
 }

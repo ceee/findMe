@@ -102,6 +102,7 @@ public class Login extends Activity
     		
     		Intent myIntent = new Intent(button.getContext(), FindMeMenu.class);
             startActivity(myIntent);
+            finish();
     	}
     	else Toast.makeText(this, response, Toast.LENGTH_LONG).show();
     }

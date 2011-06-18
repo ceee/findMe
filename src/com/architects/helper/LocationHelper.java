@@ -52,8 +52,7 @@ public class LocationHelper
                     "Current Location \n Longitude: %1$s \n Latitude: %2$s",
                     location.getLongitude(), location.getLatitude()
             );
-            Toast.makeText(myContext, message,
-                    Toast.LENGTH_LONG).show();
+            //Toast.makeText(myContext, message, Toast.LENGTH_LONG).show();
         }
     }   
 
@@ -64,12 +63,11 @@ public class LocationHelper
                     "New Location \n Longitude: %1$s \n Latitude: %2$s",
                     location.getLongitude(), location.getLatitude()
             );
-            Toast.makeText(myContext, message, Toast.LENGTH_LONG).show();
+            //Toast.makeText(myContext, message, Toast.LENGTH_LONG).show();
         }
 
         public void onStatusChanged(String s, int i, Bundle b) {
-            Toast.makeText(myContext, "Provider status changed",
-                    Toast.LENGTH_LONG).show();
+            // Toast.makeText(myContext, "Provider status changed", Toast.LENGTH_LONG).show();
         }
 
         public void onProviderDisabled(String s) {

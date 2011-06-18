@@ -1,7 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:padding="10dp"
-    android:textSize="16sp" >
-</TextView>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="horizontal" android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="@color/white"
+	android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:textColor="@color/contentdark"
+	android:id="@+id/nearby">
+	<ImageView 
+	   android:id="@+id/user_image"
+	   android:src="@drawable/user"
+	   android:layout_width="wrap_content"
+	   android:layout_height="wrap_content"
+	   android:layout_marginRight="5dip"
+	   android:layout_gravity="center_vertical"
+	   />
+	<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:id="@+id/nearby_list_text"
+	    android:textSize="16sp"
+	    android:textColor="@color/contentdark" 
+	>
+	</TextView>
+</LinearLayout>

@@ -10,6 +10,7 @@ import com.architects.helper.*;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
@@ -45,7 +46,6 @@ public class Friends extends Activity {
 		setContentView(R.layout.friends);
 		
 		setupTabHost();
-		mTabHost.getTabWidget().setDividerDrawable(R.drawable.tab_divider);
 
 		// setup list views
 		friends = (ListView) findViewById(R.id.friendslist);
@@ -58,8 +58,10 @@ public class Friends extends Activity {
         String[] friendslist = FriendsHelper.getFriendsList(mail);
         String[] requestslist = FriendsHelper.getRequestsList(mail);
 		
-        friends.setAdapter(new ArrayAdapter<String>(this, R.layout.nearby_list_item, friendslist));
-		requests.setAdapter(new ArrayAdapter<String>(this, R.layout.nearby_list_item, requestslist));
+        friends.setAdapter(new ArrayAdapter<String>
+        	(this, R.layout.nearby_list_item, R.id.nearby_list_text, friendslist));
+		requests.setAdapter(new ArrayAdapter<String>
+			(this, R.layout.nearby_list_item,R.id.nearby_list_text, requestslist));
         
 		setupTab(friends, "Friends");
 		setupTab(requests, "Requests");
@@ -83,4 +85,10 @@ public class Friends extends Activity {
 		tv.setText(text);
 		return view;
 	}
+	
+	public void enterMenuHandler(View button) 
+    {
+    	Intent myIntent = new Intent(button.getContext(), FindMeMenu.class);
+        startActivity(myIntent);
+    }
 }

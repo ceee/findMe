@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
+	android:background="@color/white"
 	android:id="@+id/friends">
+	
+	<include android:id="@+id/topbb2" layout="@layout/topbar" />
 
 	<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
 		android:id="@+id/tabhost"
@@ -20,13 +24,18 @@
 			<View android:layout_width="fill_parent" android:layout_height="2dip"
 				android:background="#000" />
 			<FrameLayout android:id="@android:id/tabcontent"
-				android:layout_width="fill_parent" android:layout_height="fill_parent">
+				android:layout_width="fill_parent" android:layout_height="fill_parent"
+				android:paddingTop="-6dip">
 				<ListView android:id="@+id/friendslist" android:layout_width="fill_parent"
 					android:layout_height="wrap_content" android:layout_weight="1"
+					android:divider="@color/lightdiv"
+					android:dividerHeight="1dip"
 					android:visibility="invisible">
 				</ListView>
 				<ListView android:id="@+id/requests" android:layout_width="fill_parent"
 					android:layout_height="wrap_content" android:layout_weight="1"
+					android:divider="@color/lightdiv"
+					android:dividerHeight="1dip"
 					android:visibility="invisible">
 				</ListView>
 			</FrameLayout>
