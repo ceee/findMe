@@ -53,6 +53,25 @@ public class Login extends Activity
         }
 	}
 	
+	public static String logout(String[] str)
+	{
+		JSONObject j = new JSONObject();
+        
+        try
+        {
+			j.put("mail", str[0]);
+			j.put("password", AccountHelper.createHashMd5(str[1]));
+			j.put("logout", "01");
+
+			return AccountHelper.doHttpPost("login_user.php", j);
+        }
+        catch (JSONException e)
+        {
+        	e.printStackTrace();
+        	return "";
+        }
+	}
+	
 	
     public void loginUserHandler(View button)
     {
