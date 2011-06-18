@@ -56,10 +56,16 @@ public class AccountHelper
 	    return "";
 	}
 	
-	
 	public static JSONObject doHttpGet(String url_end)
 	{
+		return doHttpGet(url_end, "");
+	}
+	
+	public static JSONObject doHttpGet(String url_end, String params)
+	{
 		String url = "http://www.artistandarchitects.at/findme/" + url_end;
+		
+		if(params != "") url += params;
 		
 		HttpClient client = new DefaultHttpClient();
 	    HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000);
@@ -74,7 +80,7 @@ public class AccountHelper
 	        {
 	            InputStream in = response.getEntity().getContent();
 	            JSONObject json=new JSONObject(convertStreamToString(in));
-	            Log.i(TAG,convertStreamToString(in));  
+	            Log.i("HttpGet Response: ",convertStreamToString(in));  
 	            return json;
 	        }
 	    } 

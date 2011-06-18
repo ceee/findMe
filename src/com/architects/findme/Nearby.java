@@ -16,6 +16,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView;
@@ -37,7 +38,7 @@ public class Nearby extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.nearby);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationManager.requestLocationUpdates(
@@ -60,8 +61,7 @@ public class Nearby extends ListActivity {
 	        
 	        for(int i=0;i<json.length();i++)
 	        {
-	        	x = (new Integer(i)).toString();
-	        	
+	        	x = (new Integer(i)).toString();      	
 	        	json_data = json.getJSONObject(x);
 	        	
 	        	Location location2 = new Location("");

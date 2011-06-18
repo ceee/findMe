@@ -5,7 +5,7 @@
      android:orientation="vertical"
      android:background="@drawable/background_dark"
      android:layout_height="fill_parent"
-     android:padding="20px">  
+     android:padding="20dip">  
 
 	<EditText  
 	    android:id="@+id/EditTextLoginMail"  
