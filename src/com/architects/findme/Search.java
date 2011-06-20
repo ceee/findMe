@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,10 @@ public class Search extends Activity {
         // get search query
         Bundle bundle = this.getIntent().getExtras();
         String query = bundle.getString("query");
+        
+        // set title bar
+        TextView title = (TextView) findViewById(R.id.titleText);
+        title.setText(Html.fromHtml("Results for <b>"+query+"</b>"));
         
         // get results list view
         resultsList = (ListView) findViewById(R.id.searchList);

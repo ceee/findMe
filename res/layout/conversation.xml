@@ -5,18 +5,21 @@
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	android:background="@color/white"
-	android:id="@+id/search">
+	android:id="@+id/conversation">
 	
 	<include layout="@layout/topbar" />
 	<include layout="@layout/title" />
 	
 	<ListView
 	    xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:id="@+id/searchList"
+	    android:id="@+id/messageOverviewList"
 	    android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:layout_weight="1"
 		android:background="@color/white"
 		android:divider="@color/lightdiv"
 		android:dividerHeight="1dip">
 	</ListView>
+	
+	<include android:id="@+id/messageinputview" layout="@layout/message_input"
+		android:layout_gravity="bottom" />
 </LinearLayout>

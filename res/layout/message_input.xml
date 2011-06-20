@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:background="@color/white"
+  android:layout_height="wrap_content"
+  android:paddingTop="10dip"
+  android:orientation="horizontal"
+  android:paddingBottom="10dip"
+  android:paddingLeft="20dip"
+  android:paddingRight="20dip"
+  android:weightSum="1.0">
+  	<EditText  
+	    android:id="@+id/messageinput"  
+	    android:layout_height="wrap_content"  
+	    android:hint="Reply ..."
+	    android:layout_width="fill_parent"
+	    android:singleLine="false" 
+	    android:lines="2"
+	    android:gravity="top"
+	    android:inputType="textMultiLine"
+	    android:layout_weight=".25">  
+	</EditText> 
+	<Button android:id="@+id/messagesubmit"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:onClick="messageSubmitHandler"
+		android:layout_gravity="right|center_vertical"
+		android:layout_weight=".75"
+		android:text="OK" />
+</LinearLayout>

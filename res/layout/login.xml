@@ -3,17 +3,18 @@
 	 xmlns:android="http://schemas.android.com/apk/res/android"
      android:layout_width="fill_parent"  
      android:orientation="vertical"
-     android:background="@drawable/background_dark"
+     android:background="@drawable/dark"
      android:layout_height="fill_parent"
      android:padding="20dip">  
+
+	<include layout="@layout/logo" />
 
 	<EditText  
 	    android:id="@+id/EditTextLoginMail"  
 	    android:layout_height="wrap_content"  
 	    android:hint="E-Mail"  
 	    android:inputType="textEmailAddress"
-	    android:layout_width="fill_parent"
-	    android:layout_marginTop="80dip">  
+	    android:layout_width="fill_parent">  
 	</EditText>  
 
 	<EditText  

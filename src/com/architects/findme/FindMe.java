@@ -22,6 +22,7 @@ public class FindMe extends Activity
 	public static final String PREFS_NAME = "LoginCredentials";
 	public StateHelper phoneState = new StateHelper();
 	private static final String TAG = "test";
+	private boolean showEntry = false;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) 
@@ -29,8 +30,7 @@ public class FindMe extends Activity
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         
-        setContentView(R.layout.main);
-        
+        FindMe.this.setContentView(R.layout.main);
         
         String loginData[] = new String[3];
         
@@ -48,9 +48,9 @@ public class FindMe extends Activity
         	if(response.compareTo("01") == 0)
         	{
         		Intent myIntent = new Intent(this, FindMeMenu.class);
-                startActivity(myIntent);
+                startActivity(myIntent); 
         	}
-        }  
+        }
     }
     
     @Override

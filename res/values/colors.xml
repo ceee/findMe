@@ -5,4 +5,5 @@
 	<color name="light">#f1f3f5ff</color>
 	<color name="lightdiv">#d2d4d5ff</color>
 	<color name="contentdark">#23262c</color>
+	<color name="contentmiddle">#9fa6b3</color>
 </resources>

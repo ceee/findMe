@@ -23,7 +23,7 @@ public class Registration extends Activity
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         
-        setContentView(R.layout.registration);
+        Registration.this.setContentView(R.layout.registration);
     }
 
     

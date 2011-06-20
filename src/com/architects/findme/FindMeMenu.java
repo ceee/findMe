@@ -1,20 +1,25 @@
 package com.architects.findme;
 
+import com.architects.resources.*;
+
+import android.R.drawable;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class FindMeMenu extends Activity 
@@ -44,7 +49,7 @@ public class FindMeMenu extends Activity
     }
     public void messagesMenuHandler(View button) 
     {
-    	Intent myIntent = new Intent(button.getContext(), Search.class);
+    	Intent myIntent = new Intent(button.getContext(), Messages.class);
         startActivity(myIntent);
     }
     public void meMenuHandler(View button) 

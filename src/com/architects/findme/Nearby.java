@@ -1,13 +1,11 @@
 package com.architects.findme;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.architects.findme.R;
 import com.architects.helper.*;
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -17,13 +15,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -156,29 +151,7 @@ public class Nearby extends Activity {
         }
 
     }
-    
-	
-	// VIEWS
-    public void drawNearbyHandler(View button) 
-    {
-    	Intent myIntent = new Intent(button.getContext(), Nearby.class);
-        startActivity(myIntent);
-    }
-    public void drawFriendsHandler(View button) 
-    {
-    	Intent myIntent = new Intent(button.getContext(), Friends.class);
-        startActivity(myIntent);
-    }
-    public void drawChatHandler(View button) 
-    {
-    	Intent myIntent = new Intent(button.getContext(), Chat.class);
-        startActivity(myIntent);
-    }
-    public void drawSearchHandler(View button) 
-    {
-    	Intent myIntent = new Intent(button.getContext(), Search.class);
-        startActivity(myIntent);
-    }
+
     
     public void enterMenuHandler(View button) 
     {

@@ -50,6 +50,16 @@
 				  android:label="Menu"
 				  android:screenOrientation="portrait">
 		</activity>
+		<activity android:name=".Messages"
+				  android:configChanges="keyboardHidden|orientation" 
+				  android:label="Messages"
+				  android:screenOrientation="portrait">
+		</activity>
+		<activity android:name=".Conversation"
+				  android:configChanges="keyboardHidden|orientation" 
+				  android:label="Conversation"
+				  android:screenOrientation="portrait">
+		</activity>
     </application>
     
     <uses-permission android:name="android.permission.INTERNET" />

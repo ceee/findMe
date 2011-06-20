@@ -28,7 +28,7 @@ public class Login extends Activity
         super.onCreate(savedInstanceState);        
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         
-        setContentView(R.layout.login);
+        Login.this.setContentView(R.layout.login);
     }
 	
 	public static String login(String[] str)

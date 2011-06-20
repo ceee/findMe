@@ -22,7 +22,7 @@ import android.util.Log;
 
 public class AccountHelper 
 {
-	private static final String TAG = "test";
+	private static final String TAG = "findme";
 	
 	public static String doHttpPost(String url_end, JSONObject j)
 	{

@@ -3,10 +3,11 @@
     	xmlns:android="http://schemas.android.com/apk/res/android"  
         android:layout_width="fill_parent"  
         android:orientation="vertical"  
-        android:background="@drawable/background_dark"
-	     android:layout_height="fill_parent"
-	     android:padding="20dip">  
+        android:background="@drawable/dark"
+	    android:layout_height="fill_parent"
+	    android:padding="20dip">  
 	
+		<include layout="@layout/logo" />
 	
 		<TextView  
 		    android:id="@+id/TextViewTitle"  
@@ -15,7 +16,6 @@
 		    android:text="Information:"  
 		    android:textSize="7pt"
 		    android:textColor="#39525f"
-		    android:layout_marginTop="80dip"
 		    android:layout_marginBottom="2dip">  
 		</TextView>
 		<EditText  

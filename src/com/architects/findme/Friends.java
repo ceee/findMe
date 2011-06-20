@@ -1,10 +1,5 @@
 package com.architects.findme;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONObject;
-
 import com.architects.findme.R;
 import com.architects.helper.*;
 
@@ -12,9 +7,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -31,7 +24,7 @@ public class Friends extends Activity {
 	private ListView friends;
 	private ListView requests;
 	public static final String PREFS_NAME = "LoginCredentials";
-	private static final String TAG = "findme";
+	//private static final String TAG = "findme";
 
 	private void setupTabHost() {
 		mTabHost = (TabHost) findViewById(R.id.tabhost);
@@ -57,11 +50,11 @@ public class Friends extends Activity {
         
         String[] friendslist = FriendsHelper.getFriendsList(mail);
         String[] requestslist = FriendsHelper.getRequestsList(mail);
-		
-        friends.setAdapter(new ArrayAdapter<String>
+		friends.setAdapter(new ArrayAdapter<String>
         	(this, R.layout.nearby_list_item, R.id.nearby_list_text, friendslist));
 		requests.setAdapter(new ArrayAdapter<String>
 			(this, R.layout.nearby_list_item,R.id.nearby_list_text, requestslist));
+        
         
 		setupTab(friends, "Friends");
 		setupTab(requests, "Requests");
