@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="fill_parent" 
+    android:orientation="vertical"
+    android:layout_height="fill_parent">
+ 
+ 	<include layout="@layout/topbar" />
+	<include layout="@layout/title" />
+ 
+    <com.google.android.maps.MapView 
+        android:id="@+id/mapView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:enabled="true"
+        android:clickable="true"
+        android:apiKey="0L4woGZ-uJszP_he3MWGuIxMJUpYIZ26yhqO1PQ"
+        />
+ 
+</LinearLayout>

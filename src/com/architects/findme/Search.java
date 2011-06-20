@@ -1,5 +1,7 @@
 package com.architects.findme;
 
+import org.json.JSONObject;
+
 import com.architects.helper.*;
 
 import android.app.Activity;
@@ -10,6 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +48,33 @@ public class Search extends Activity {
         resultsList = (ListView) findViewById(R.id.searchList);
         
         // search results to string
-        String[] results = SearchHelper.getResults(query);
+        JSONObject j = new JSONObject();
+		String params = "?query="+query;
+        j = AccountHelper.doHttpGet("search.php", params);
+        Log.v(TAG, j.toString());
+        
+        final String[] mails = new String[j.length()];
+        final String[] names = new String[j.length()];
+        
+        String[] results = new String[j.length()]; 
+        
+        try {
+	        JSONObject json_data = null;
+	        String x;
+
+	        for(int i=0;i<j.length();i++)
+	        {
+	        	x = (new Integer(i)).toString();      	
+	        	json_data = j.getJSONObject(x);
+	        	
+	        	mails[i] = json_data.getString("mail");
+	        	names[i] = json_data.getString("name");
+	        	
+	        	results[i] = json_data.getString("name") + "\n" + json_data.getString("mail");
+	        }
+
+        }
+        catch(Exception e) { }
         
         resultsList.setAdapter(new ArrayAdapter<String>(this, R.layout.nearby_list_item, R.id.nearby_list_text, results));
 
@@ -53,8 +82,13 @@ public class Search extends Activity {
         
         resultsList.setOnItemClickListener(new OnItemClickListener() {
           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            // When clicked, show a toast with the TextView text
-            Toast.makeText(getApplicationContext(), ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
+        	  Bundle bundle = new Bundle();
+		    	bundle.putString("mail", mails[position]);
+		    	bundle.putString("name", names[position]);
+	
+		    	Intent newIntent = new Intent(getApplicationContext(), Profile.class);
+		    	newIntent.putExtras(bundle);
+		    	startActivity(newIntent);
           }
         });
 	}

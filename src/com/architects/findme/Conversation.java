@@ -119,8 +119,9 @@ public class Conversation extends Activity {
     	else
     	{
     		Spanned mys = Html.fromHtml("<font color='#9fa6b3'><small>Ich:</small></font><br />" + text);
-    		list.add(mys);
+    		list.add(0, mys);
     		adapter.notifyDataSetChanged();
+    		Toast.makeText(getApplicationContext(), "Successfully sent!", Toast.LENGTH_SHORT).show();
     	}
 	}
 	

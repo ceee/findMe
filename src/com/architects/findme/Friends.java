@@ -4,19 +4,25 @@ import com.architects.findme.R;
 import com.architects.helper.*;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TabHost.TabContentFactory;
 import android.widget.TabHost.TabSpec;
+import android.widget.Toast;
 
 public class Friends extends Activity {
 	private TabHost mTabHost;
@@ -24,6 +30,8 @@ public class Friends extends Activity {
 	private ListView friends;
 	private ListView requests;
 	public static final String PREFS_NAME = "LoginCredentials";
+	
+	public String mymail;
 	//private static final String TAG = "findme";
 
 	private void setupTabHost() {
@@ -31,7 +39,6 @@ public class Friends extends Activity {
 		mTabHost.setup();
 	}
 
-	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -47,6 +54,7 @@ public class Friends extends Activity {
         // get mail
         SharedPreferences preferences = this.getSharedPreferences(PREFS_NAME, MODE_WORLD_READABLE);
         String mail = preferences.getString("mail", "");
+        mymail = mail;
         
         String[] friendslist = FriendsHelper.getFriendsList(mail);
         String[] requestslist = FriendsHelper.getRequestsList(mail);
@@ -58,6 +66,40 @@ public class Friends extends Activity {
         
 		setupTab(friends, "Friends");
 		setupTab(requests, "Requests");
+		
+		
+		requests.setOnItemClickListener(new OnItemClickListener() {
+	          public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+	        	  	TextView me = (TextView) view.findViewById(R.id.nearby_list_text);
+	        	  	final String mail = (String) me.getText();
+	        	  	
+	        	    final AlertDialog.Builder alertbox = new AlertDialog.Builder(Friends.this);
+		          	LayoutInflater factory = LayoutInflater.from(Friends.this);
+		          	final View input = factory.inflate(R.layout.request_dialog, null);
+		          	
+		          	alertbox.setTitle("Friend Request");
+		          	alertbox.setView(input);
+	
+		          	alertbox.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+		          	    public void onClick(DialogInterface dialog, int whichButton) {
+		          	    	FriendsHelper.request("add", mail, mymail);
+		          	    	FriendsHelper.request("decline", mail, mymail);
+
+		          	    	Toast.makeText(Friends.this, "Friend successfully added!", Toast.LENGTH_LONG).show();
+		          	    }
+		          	});
+	
+		          	alertbox.setNegativeButton("Decline",
+		          	        new DialogInterface.OnClickListener() {
+		          	            public void onClick(DialogInterface dialog, int whichButton) {
+				          	    	FriendsHelper.request("decline", mail, mymail);
+				          	    	
+				          	    	Toast.makeText(Friends.this, "Friend request declined!", Toast.LENGTH_LONG).show();
+		          	            }
+		          	        });
+		          	alertbox.show();
+	          }
+		});
 	}
 
 	private void setupTab(final View view, final String tag) {

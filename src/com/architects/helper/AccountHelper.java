@@ -18,11 +18,14 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.HTTP;
 import org.json.JSONObject;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 public class AccountHelper 
 {
 	private static final String TAG = "findme";
+	public static final String PREFS_NAME = "LoginCredentials";
 	
 	public static String doHttpPost(String url_end, JSONObject j)
 	{
@@ -90,6 +93,41 @@ public class AccountHelper
 	    }
 	    return new JSONObject();
 	}
+	
+	
+	public static Boolean isLogged(Context c) 
+	{
+		SharedPreferences preferences = c.getSharedPreferences(PREFS_NAME, 0);
+        String mail = preferences.getString("mail", "");    
+        
+        if (mail.compareTo("") != 0) return true;
+        else return false;
+	}
+	
+	public static String[] getLoginPreferences(Context c) 
+	{
+		String[] loginPreferences = new String[3];
+		
+		SharedPreferences preferences = c.getSharedPreferences(PREFS_NAME, 0);
+		
+		loginPreferences[0] = preferences.getString("mail", ""); 
+		loginPreferences[1] = preferences.getString("password", ""); 
+		loginPreferences[2] = preferences.getString("status", ""); 
+		
+		return loginPreferences;
+	}
+	
+	public static Boolean clearLoginPreferences(Context c) 
+	{
+		SharedPreferences preferences = c.getSharedPreferences(PREFS_NAME, 0);
+		SharedPreferences.Editor prefsEditor = preferences.edit();   
+        
+		prefsEditor.clear();
+		prefsEditor.commit();
+		
+        return (isLogged(c)) ? false : true;
+	}
+	
 	
 	
     public static String createHashMd5(String str) 

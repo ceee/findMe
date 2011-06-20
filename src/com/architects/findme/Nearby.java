@@ -48,14 +48,18 @@ public class Nearby extends Activity {
         
         JSONObject json = AccountHelper.doHttpGet("get_online_user.php");
         String[] onlineUser = new String[json.length()]; 
+        
+        final String[] mails = new String[json.length()];
+        final String[] names = new String[json.length()];
+        
         try {
 	        Log.v(TAG, "Länge:"+json.length());
 	        JSONObject json_data = null;
 	        String x;
 	        
 	        Location location = new Location("");
-	        location.setLatitude(30);
-	        location.setLongitude(-122);
+	        location.setLatitude(13.0443);
+	        location.setLongitude(48.2557);
 	        
 	        for(int i=0;i<json.length();i++)
 	        {
@@ -77,13 +81,13 @@ public class Nearby extends Activity {
         			me = dis + " km";
         		}
 	        	else me = distance + " m";
+	        	Log.v(TAG, me);
 	        	
+	        	mails[i] = json_data.getString("mail");
+	        	names[i] = json_data.getString("name");
 	        	
 	        	onlineUser[i] = json_data.getString("name") + "\n" + me;
-	        	Log.v(TAG, json_data.getString("name"));
 	        }
-	        
-			Log.v(TAG, "DATA-Länge:"+json_data.length());
 				
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -96,8 +100,13 @@ public class Nearby extends Activity {
         
         nearby.setOnItemClickListener(new OnItemClickListener() {
           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            // When clicked, show a toast with the TextView text
-            Toast.makeText(getApplicationContext(), ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
+        	    Bundle bundle = new Bundle();
+		    	bundle.putString("mail", mails[position]);
+		    	bundle.putString("name", names[position]);
+	
+		    	Intent newIntent = new Intent(getApplicationContext(), Profile.class);
+		    	newIntent.putExtras(bundle);
+		    	startActivity(newIntent);
           }
         });
     }

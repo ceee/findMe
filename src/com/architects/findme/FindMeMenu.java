@@ -1,25 +1,18 @@
 package com.architects.findme;
 
-import com.architects.resources.*;
+import com.architects.helper.*;
 
-import android.R.drawable;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class FindMeMenu extends Activity 
@@ -54,8 +47,15 @@ public class FindMeMenu extends Activity
     }
     public void meMenuHandler(View button) 
     {
-    	Intent myIntent = new Intent(button.getContext(), Search.class);
-        startActivity(myIntent);
+    	String[] loginCredentials = AccountHelper.getLoginPreferences(this);
+    	
+    	Bundle bundle = new Bundle();
+    	bundle.putString("mail", loginCredentials[0]);
+    	bundle.putString("name", "Tobias Klika");
+
+    	Intent newIntent = new Intent(getApplicationContext(), Profile.class);
+    	newIntent.putExtras(bundle);
+    	startActivity(newIntent);
     }
     public void searchMenuHandler(View button) 
     {
@@ -103,15 +103,13 @@ public class FindMeMenu extends Activity
         Log.v(TAG, response);
         if(response.compareTo("06") == 0)
         {
-        	// remove login credentials
-            SharedPreferences.Editor prefsEditor = preferences.edit();
-            prefsEditor.clear();
-            prefsEditor.commit();
-            
-            Toast.makeText(button.getContext(), "Logout successful", Toast.LENGTH_LONG).show();
-        	Intent myIntent = new Intent(button.getContext(), FindMe.class);
-        	startActivity(myIntent);
-        	
+        	if(AccountHelper.clearLoginPreferences(this))
+        	{
+	            Toast.makeText(button.getContext(), "Logout successful", Toast.LENGTH_LONG).show();
+	        	Intent myIntent = new Intent(button.getContext(), Main.class);
+	        	startActivity(myIntent);
+	        	finish();
+        	}
         }
         else Toast.makeText(this, "Logout failed. Try again!", Toast.LENGTH_LONG).show(); 
     }

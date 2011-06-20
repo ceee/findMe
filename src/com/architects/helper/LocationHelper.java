@@ -1,6 +1,8 @@
 package com.architects.helper;
 
 import com.architects.findme.R;
+import com.google.android.maps.GeoPoint;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -54,7 +56,7 @@ public class LocationHelper
             );
             //Toast.makeText(myContext, message, Toast.LENGTH_LONG).show();
         }
-    }   
+    }
 
     private class MyLocationListener implements LocationListener {
 
@@ -82,5 +84,15 @@ public class LocationHelper
                     Toast.LENGTH_LONG).show();
         }
 
+    }
+    
+    public static GeoPoint toGeoPoint(String[] coord)
+    {
+        double lat = Double.parseDouble(coord[0]);
+        double lng = Double.parseDouble(coord[1]);
+ 
+        return new GeoPoint(
+            (int) (lat * 1E6), 
+            (int) (lng * 1E6));
     }
 }

@@ -56,10 +56,34 @@ public class FriendsHelper
 	        	x = (new Integer(i)).toString();      	
 	        	json_data = j.getJSONObject(x);
 	        	
-	        	friends[i] = json_data.getString("name") + "\n" + json_data.getString("id");
+	        	friends[i] = json_data.getString("mail");
 	        }
 	        return friends;
         }
         catch(Exception e) { return new String[0];}
+	}
+	
+	public static String request(String type, String sender, String receiver)
+	{
+		JSONObject j = new JSONObject();
+        try
+        {
+			j.put("sender", sender);
+			j.put("receiver", receiver);
+			j.put("type", type);
+
+			return AccountHelper.doHttpPost("friend.php", j);
+        }
+        catch (JSONException e)
+        {
+        	e.printStackTrace();
+        	return "";
+        }
+	}
+	
+	public static JSONObject getUserInfo(String user)
+	{
+		String params = "?user="+user;
+        return AccountHelper.doHttpGet("get_user_info.php", params);
 	}
 }

@@ -1,5 +1,6 @@
 package com.architects.findme;
 
+import com.architects.helper.*;
 import com.architects.findme.R;
 import com.architects.helper.StateHelper;
 import com.architects.findme.Login;
@@ -17,7 +18,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
 
-public class FindMe extends Activity 
+public class Main extends Activity 
 {	
 	public static final String PREFS_NAME = "LoginCredentials";
 	public StateHelper phoneState = new StateHelper();
@@ -28,9 +29,30 @@ public class FindMe extends Activity
     public void onCreate(Bundle savedInstanceState) 
     {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         
-        setContentView(R.layout.main);
+        boolean isLogged = AccountHelper.isLogged(this);
+        
+        if(isLogged)
+        {
+        	String[] loginCredentials = AccountHelper.getLoginPreferences(this);
+        	/*
+        	String response = Login.login(loginCredentials).trim();
+        	// check if login was successful
+        	Log.v(TAG, response);
+        	if(response.compareTo("01") == 0)
+        	{
+        		Intent myIntent = new Intent(this, FindMeMenu.class);
+                startActivity(myIntent); 
+        	}*/
+        	Intent myIntent = new Intent(this, FindMeMenu.class);
+            startActivity(myIntent); 
+        }
+        else
+        {
+    		Intent myIntent = new Intent(this, FindMe.class);
+            startActivity(myIntent);
+        }
+        finish();
     }
     
     // VIEWS
