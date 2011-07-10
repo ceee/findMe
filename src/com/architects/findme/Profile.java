@@ -14,7 +14,7 @@ import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Profile extends Activity 
+public class Profile extends TimerActivity 
 {
 	private static final String TAG = "findme";
 	private String userName;
@@ -28,6 +28,7 @@ public class Profile extends Activity
 
         setContentView(R.layout.profile);
         
+        super.run();
 
         Bundle bundle = this.getIntent().getExtras();
         userMail = bundle.getString("mail");

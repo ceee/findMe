@@ -2,10 +2,15 @@ package com.architects.findme;
 
 import java.util.ArrayList;
 
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
+
+import com.architects.helper.*;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
 
@@ -14,10 +19,14 @@ public class PeopleItemizedOverlay extends ItemizedOverlay
 {
 	private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
 	private Context mContext;
-
-	public PeopleItemizedOverlay(Drawable defaultMarker, Context context) {
+	private String[] mails;
+	private String[] names;
+	
+	public PeopleItemizedOverlay(Drawable defaultMarker, Context context, String[] names, String[] mails) {
 		super(boundCenterBottom(defaultMarker));
 		mContext = context;
+		this.mails = mails;
+		this.names = names;
 	}
 
 	@Override
@@ -34,54 +43,16 @@ public class PeopleItemizedOverlay extends ItemizedOverlay
 	@Override
 	protected boolean onTap(int index) {
 	  //OverlayItem item = mOverlays.get(index);
-	  
+	  Log.v("test", "ID " + index);
 	  Bundle bundle = new Bundle();
-	  bundle.putString("mail", "klika@live.at");
-	  bundle.putString("name", "Tobias Klika");
+	  bundle.putString("mail", mails[index]);
+	  bundle.putString("name", names[index]);
 	  
 	  Intent newIntent = new Intent(mContext.getApplicationContext(), Profile.class);
 	  newIntent.putExtras(bundle);
 	  mContext.startActivity(newIntent);
 	  
 	  return true;
-	  
-	  /*
-	  AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
-	  dialog.setTitle(item.getTitle());
-	  
-	  LayoutInflater factory = LayoutInflater.from(mContext);
-  	  final View input = factory.inflate(R.layout.map_dialog, null);
-	  dialog.setView(input);
-	  
-	  
-	  dialog.setPositiveButton("Profile", new DialogInterface.OnClickListener() {
-	  	    public void onClick(DialogInterface dialog, int whichButton) {
-	  	    	// get the input value
-	  	    	EditText mText;
-	  	    	mText = (EditText) input.findViewById(R.id.MapInput);
-	  	    	String text = mText.getText().toString();
-	  	    	
-	  	    	// redirect to search results
-	  	    	Bundle bundle = new Bundle();
-	  	    	bundle.putString("mail", text);
-	
-	  	    	Log.v(TAG, "HI");
-	  	    	Intent newIntent = new Intent(mContext.getApplicationContext(), Login.class);
-	  	    	newIntent.putExtras(bundle);
-	  	    	mContext.startActivity(newIntent);
-	  	    }
-	  	});
-	
-	  	dialog.setNegativeButton("Hide", new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int whichButton) {
-              dialog.cancel();
-          }
-      });
-	  
-	  
-	  dialog.show();
-	  return true;
-	  */
 	}
 	
 	

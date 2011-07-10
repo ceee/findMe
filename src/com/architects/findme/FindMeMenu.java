@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +16,13 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class FindMeMenu extends Activity 
+public class FindMeMenu extends TimerActivity 
 {
 	public static final String PREFS_NAME = "LoginCredentials";
-	private static final String TAG = "findMe";
+	private static final String TAG = "FindMeMenu";
+	
+	
+	
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) 
@@ -27,10 +31,17 @@ public class FindMeMenu extends Activity
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         
         this.setContentView(R.layout.findmemenu);
+        
+        super.run();
     }
 	
 	// Handler
     public void nearbyMenuHandler(View button) 
+    {
+    	Intent myIntent = new Intent(button.getContext(), MapNearby.class);
+        startActivity(myIntent);
+    }
+    public void nearbyListMenuHandler(View button) 
     {
     	Intent myIntent = new Intent(button.getContext(), Nearby.class);
         startActivity(myIntent);
@@ -93,13 +104,7 @@ public class FindMeMenu extends Activity
     }
     public void logoutMenuHandler(View button) 
     {
-    	String logoutData[] = new String[2];
-    	
-    	SharedPreferences preferences = this.getSharedPreferences(PREFS_NAME, MODE_WORLD_READABLE);
-    	logoutData[0] = preferences.getString("mail", "");
-    	logoutData[1] = preferences.getString("password", "");
-        
-        String response = AccountHelper.logout(logoutData, this).trim();
+        String response = AccountHelper.logout(this).trim();
         Log.v(TAG, response);
         if(response.compareTo("06") == 0)
         {

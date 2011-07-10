@@ -34,7 +34,8 @@ import android.widget.TabHost.TabContentFactory;
 import android.widget.TabHost.TabSpec;
 import android.widget.Toast;
 
-public class Friends extends Activity {
+public class Friends extends TimerActivity 
+{
 	private TabHost mTabHost;
 	private ListView friends;
 	private ListView requests;
@@ -56,6 +57,8 @@ public class Friends extends Activity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.friends);
+		
+		super.run();
 		
 		// get mail
         SharedPreferences preferences = this.getSharedPreferences(PREFS_NAME, MODE_WORLD_READABLE);

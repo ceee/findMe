@@ -33,16 +33,16 @@ import android.widget.Toast;
 public class MapNearby extends MapActivity 
 {    
 	public int standardZoom = 12;
-	private static final long MINIMUM_DISTANCE_CHANGE_FOR_UPDATES = 0; // in Meters
-    private static final long MINIMUM_TIME_BETWEEN_UPDATES = 1000; // in Milliseconds
-    private static final String TAG = "test";
     
 	private MapController mapController;
 	private List<Overlay> mapOverlays;
+	private static final String TAG = "MapNearby";
 	private MapView mapView;
 	private GeoPoint geoPoint;
 	private PeopleItemizedOverlay itemizedoverlay;
 	protected LocationManager locationManager;
+	private String[] mails;
+	private String[] names;
 	
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -67,9 +67,10 @@ public class MapNearby extends MapActivity
         
         
         // go to my location
+        Location location = LocationHelper.getCurrentLocation(this);
         String coordinates[] = new String[2];
-        coordinates[0] = String.valueOf("30");
-        coordinates[1] = String.valueOf("-122");
+        coordinates[0] = String.valueOf(location.getLatitude());
+        coordinates[1] = String.valueOf(location.getLongitude());
         geoPoint = LocationHelper.toGeoPoint(coordinates);
         mapController.animateTo(geoPoint);
         mapController.setZoom(standardZoom); 
@@ -79,41 +80,51 @@ public class MapNearby extends MapActivity
         Drawable marker = MapNearby.this.getResources().getDrawable(R.drawable.marker);
         addMe(mapOverlays);
         
-        
-        // show people marker
-        itemizedoverlay = new PeopleItemizedOverlay(marker, MapNearby.this);
-        
-        JSONObject json = RequestHelper.doHttpGet("get_online_user.php", this);
+        JSONObject json = RequestHelper.doHttpGet("get_online_user.php", this, "?mail="+AccountHelper.getMail(this));
         //String[] onlineUser = new String[json.length()]; 
         
         
-        
-        
-        
         String cood[] = new String[2];
+        mails = new String[json.length()];
+        names = new String[json.length()];
+        
+        JSONObject json_data = null;
+        String x;
         
         try {
-	        JSONObject json_data = null;
-	        String x;
+	        for(int i=0;i<json.length();i++)
+	        {
+	        	x = (new Integer(i)).toString();      	
+	        	json_data = json.getJSONObject(x);	
+	        	
+	        	mails[i] = json_data.getString("mail");
+	        	names[i] = json_data.getString("name");
+	        }	
+		} catch (JSONException e) {
+			Log.v(TAG, "JSONError");
+		}
+		
+		// show people marker
+        itemizedoverlay = new PeopleItemizedOverlay(marker, MapNearby.this, names, mails);
+		
+        
+        try {
+	        json_data = null;
+	        x = null;
 	        
 	        for(int i=0;i<json.length();i++)
 	        {
 	        	x = (new Integer(i)).toString();      	
 	        	json_data = json.getJSONObject(x);		        
 		        
-		        cood[0] = String.valueOf(json_data.getDouble("longitude"));
-		        cood[1] = String.valueOf(json_data.getDouble("latitude"));
+		        cood[0] = String.valueOf(json_data.getDouble("latitude"));
+		        cood[1] = String.valueOf(json_data.getDouble("longitude"));
 		        addPerson(mapOverlays, cood);
-		        
-	        	
-	        	//mails[i] = json_data.getString("mail");
-	        	//names[i] = json_data.getString("name");
-	        }
-				
+	        }	
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.v(TAG, "JSONError");
 		}
+	
         
         mapOverlays.add(itemizedoverlay);
         
@@ -129,8 +140,20 @@ public class MapNearby extends MapActivity
     private void addMe(List<Overlay> mapOverlays) {
     	Drawable markerme = this.getResources().getDrawable(R.drawable.markerme);
     	
+    	JSONObject j = FriendsHelper.getUserInfo(AccountHelper.getMail(this), this);
+		
+		String[] name = new String[1];
+		String[] mail = new String[1];
+		try {
+			name[0] = j.getString("name");
+			mail[0] = j.getString("mail");
+		} catch (JSONException e) {
+			Log.v(TAG, "JSONError");
+		}
+		
+    	
     	// add my position
-        PeopleItemizedOverlay meitemizedoverlay = new PeopleItemizedOverlay(markerme, this);
+        PeopleItemizedOverlay meitemizedoverlay = new PeopleItemizedOverlay(markerme, this, name, mail);
         OverlayItem meoverlayitem = new OverlayItem(geoPoint, "Me", "This is me!");
         meitemizedoverlay.addOverlay(meoverlayitem);
         mapOverlays.add(meitemizedoverlay);
@@ -140,7 +163,7 @@ public class MapNearby extends MapActivity
     private void addPerson(List<Overlay> mapOverlays, String[] coord) {
         GeoPoint point = LocationHelper.toGeoPoint(coord);
         
-        OverlayItem overlayitem = new OverlayItem(point, "Hola, Mundo!", "I'm in Mexico City!");
+        OverlayItem overlayitem = new OverlayItem(point, "Hola!", "I'm here!");
         
         itemizedoverlay.addOverlay(overlayitem);
     }
@@ -149,69 +172,5 @@ public class MapNearby extends MapActivity
     {
     	Intent myIntent = new Intent(button.getContext(), FindMeMenu.class);
         startActivity(myIntent);
-    }
-    
-    
-    
-    public void updateLocationHandler(View button) 
-    {
-    	updateLocation();
-    } 
-    public void updateLocation()
-    {
-    	showCurrentLocation();
-    }
-
-    protected String[] showCurrentLocation() {
-
-    	String[] loc = new String[2];
-        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-        if (location != null) {
-            String message = String.format(
-                    "Current Location \n Longitude: %1$s \n Latitude: %2$s",
-                    location.getLongitude(), location.getLatitude()
-            );
-            loc[0] = String.valueOf(location.getLatitude());
-            loc[1] = String.valueOf(location.getLongitude());
-            // Toast.makeText(Nearby.this, message, Toast.LENGTH_LONG).show();
-        }
-        return loc;
-    }   
-    
-    
-    
-    
-    private class MyLocationListener implements LocationListener {
-
-        public void onLocationChanged(Location location) {
-            String message = String.format(
-                    "New Location \n Longitude: %1$s \n Latitude: %2$s",
-                    location.getLongitude(), location.getLatitude()
-            );
-            Log.v(TAG, message);
-
-            
-        
-            
-            //Toast.makeText(Nearby.this, message, Toast.LENGTH_LONG).show();
-        }
-
-        public void onStatusChanged(String s, int i, Bundle b) {
-            //Toast.makeText(Nearby.this, "Provider status changed", Toast.LENGTH_LONG).show();
-        }
-
-        public void onProviderDisabled(String s) {
-            Toast.makeText(MapNearby.this,
-                    "Provider disabled by the user. GPS turned off",
-                    Toast.LENGTH_LONG).show();
-        }
-
-        public void onProviderEnabled(String s) {
-            Toast.makeText(MapNearby.this,
-                    "Provider enabled by the user. GPS turned on",
-                    Toast.LENGTH_LONG).show();
-        }
-
     }
 }

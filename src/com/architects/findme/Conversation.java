@@ -25,7 +25,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Conversation extends Activity {
+public class Conversation extends TimerActivity 
+{
 	public static final String PREFS_NAME = "LoginCredentials";
 	private String sender;
 	private String receiver;
@@ -39,6 +40,8 @@ public class Conversation extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.conversation);
+        
+        super.run();
         
         // get conversation partner
         Bundle bundle = this.getIntent().getExtras();
@@ -102,10 +105,10 @@ public class Conversation extends Activity {
 	private Handler uiCallback = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-        	messageOverview = (ListView) findViewById(R.id.messageOverviewList);
+        	messageOverview = (ListView) Conversation.this.findViewById(R.id.messageOverviewList);
 	        
 	        adapter = new ArrayAdapter<Spanned>
-				(Conversation.this, R.layout.messsage_item, R.id.message_text, list);
+				(Conversation.this.getApplicationContext(), R.layout.messsage_item, R.id.message_text, list);
 	        messageOverview.setAdapter(adapter);
 	        
 	        

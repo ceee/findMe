@@ -22,7 +22,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class Messages extends Activity {
+public class Messages extends TimerActivity 
+{
 	public static final String PREFS_NAME = "LoginCredentials";
 	private static final String TAG = "findme";
 	public ProgressDialog loadingDialog;
@@ -41,6 +42,8 @@ public class Messages extends Activity {
         // set title bar
         TextView title = (TextView) findViewById(R.id.titleText);
         title.setText("Conversations");
+        
+        super.run();
         
         load();
 	}
@@ -66,10 +69,9 @@ public class Messages extends Activity {
 				String[] logPref = AccountHelper.getLoginPreferences(Messages.this);
 				mail = logPref[0];
 		        
-				messageOverview = (ListView) findViewById(R.id.messageOverviewList);
+				messageOverview = (ListView) Messages.this.findViewById(R.id.messageOverviewList);
 				
 				// search results to string
-				Log.v(TAG, "XXX 00");
 		        JSONObject j = MessagesHelper.getConversationOverview(mail, Messages.this);
 		 
 		        list = new Spanned[j.length()];
@@ -105,7 +107,7 @@ public class Messages extends Activity {
         @Override
         public void handleMessage(Message msg) {
         	messageOverview.setAdapter(new ArrayAdapter<Spanned>
-	    		(Messages.this, R.layout.message_overview_item, R.id.message_overview_text, list));
+	    		(Messages.this.getApplicationContext(), R.layout.message_overview_item, R.id.message_overview_text, list));
 	        
 	        messageOverview.setTextFilterEnabled(true);
 	        

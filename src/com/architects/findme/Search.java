@@ -18,7 +18,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class Search extends Activity {
+public class Search extends TimerActivity 
+{
 	private ListView resultsList;
 	public static final String PREFS_NAME = "LoginCredentials";
 	private String query = null;
@@ -30,6 +31,8 @@ public class Search extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.search);
+        
+        super.run();
         
         // get search query
         Bundle bundle = this.getIntent().getExtras();

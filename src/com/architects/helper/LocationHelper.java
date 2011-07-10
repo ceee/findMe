@@ -1,84 +1,53 @@
 package com.architects.helper;
 
-import com.google.android.maps.GeoPoint;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
+import android.util.Log;
+
+import com.google.android.maps.GeoPoint;
 
 public class LocationHelper
 {
+    private static final String TAG = "LocationHelper";
+    public static final String PREFS_NAME = "LoginCredentials";
     
-    private static final long MINIMUM_DISTANCE_CHANGE_FOR_UPDATES = 1; // in Meters
-    private static final long MINIMUM_TIME_BETWEEN_UPDATES = 100; // in Milliseconds
+    public static Location getCurrentLocation(Context c) 
+	{
+		Location loc = new Location("");
+		
+		SharedPreferences preferences = c.getSharedPreferences(PREFS_NAME, 0);
+		
+		loc.setLongitude(preferences.getFloat("longitude", 0)); 
+		loc.setLatitude(preferences.getFloat("latitude", 0)); 
+		
+		return loc;
+	}
     
-    protected LocationManager locationManager;
-    protected Context myContext;
     
-    public LocationHelper(Context myContext){
-    	this.myContext = myContext;
-        locationManager = (LocationManager) myContext.getSystemService(Context.LOCATION_SERVICE);
-        
-        locationManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER, 
-                MINIMUM_TIME_BETWEEN_UPDATES, 
-                MINIMUM_DISTANCE_CHANGE_FOR_UPDATES,
-                new MyLocationListener()
-        );
-    }
-        
-    public void updateLocationHandler(View button) 
-    {
-    	updateLocation();
-    } 
-    public void updateLocation()
-    {
-    	showCurrentLocation();
-    }
+    public static String update(Location location, Context context)
+	{
+		JSONObject j = new JSONObject();
+        try
+        {
+        	String[] str = AccountHelper.getLoginPreferences(context);
+			j.put("longitude", location.getLongitude());
+			j.put("latitude", location.getLatitude());
+			j.put("mail", str[0]);
+			j.put("password", StandardHelper.createHashMd5(str[1]));
 
-    protected void showCurrentLocation() {
-
-        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (location != null) {
-            String message = String.format(
-                    "Current Location \n Longitude: %1$s \n Latitude: %2$s",
-                    location.getLongitude(), location.getLatitude()
-            );
-            //Toast.makeText(myContext, message, Toast.LENGTH_LONG).show();
+			return RequestHelper.doHttpPost("set_location.php", context, j);
         }
-    }
-
-    private class MyLocationListener implements LocationListener {
-
-        public void onLocationChanged(Location location) {
-            String message = String.format(
-                    "New Location \n Longitude: %1$s \n Latitude: %2$s",
-                    location.getLongitude(), location.getLatitude()
-            );
-            //Toast.makeText(myContext, message, Toast.LENGTH_LONG).show();
+        catch (JSONException e)
+        {
+        	e.printStackTrace();
+        	return "";
         }
-
-        public void onStatusChanged(String s, int i, Bundle b) {
-            // Toast.makeText(myContext, "Provider status changed", Toast.LENGTH_LONG).show();
-        }
-
-        public void onProviderDisabled(String s) {
-            Toast.makeText(myContext,
-                    "Provider disabled by the user. GPS turned off",
-                    Toast.LENGTH_LONG).show();
-        }
-
-        public void onProviderEnabled(String s) {
-            Toast.makeText(myContext,
-                    "Provider enabled by the user. GPS turned on",
-                    Toast.LENGTH_LONG).show();
-        }
-
-    }
+	}
+    
     
     public static GeoPoint toGeoPoint(String[] coord)
     {

@@ -3,10 +3,12 @@ package com.architects.helper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Location;
 
-public class AccountHelper 
+public class AccountHelper
 {
 	public static final String PREFS_NAME = "LoginCredentials";
 	
@@ -32,6 +34,13 @@ public class AccountHelper
 		return loginPreferences;
 	}
 	
+	public static String getMail(Context c)
+	{
+		SharedPreferences preferences = c.getSharedPreferences(PREFS_NAME, 0);
+		
+		return preferences.getString("mail", ""); 
+	}
+	
 	public static Boolean clearLoginPreferences(Context c) 
 	{
 		SharedPreferences preferences = c.getSharedPreferences(PREFS_NAME, 0);
@@ -48,12 +57,13 @@ public class AccountHelper
 		JSONObject j = new JSONObject();
         try
         {
+        	Location loc = LocationHelper.getCurrentLocation(context);
 			j.put("mail", str[0]);
 			j.put("password", StandardHelper.createHashMd5(str[1]));
 			j.put("status", str[2]);
 			
-			j.put("longitude", -122.084095);
-			j.put("latitude", 37.422006);
+			j.put("longitude", loc.getLongitude());
+			j.put("latitude", loc.getLatitude());
 
 			return RequestHelper.doHttpPost("login_user.php", context, j);
         }
@@ -64,8 +74,10 @@ public class AccountHelper
         }
 	}
 	
-	public static String logout(String[] str, Context context)
+	public static String logout(Context context)
 	{
+		String str[] = getLoginPreferences(context);
+		
 		JSONObject j = new JSONObject();
         
         try

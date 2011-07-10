@@ -22,6 +22,13 @@
 			android:src="@drawable/nearby"
 			android:paddingBottom="15dip"
 			android:background="@null" />
+		<ImageButton android:id="@+id/nearbylist"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:onClick="nearbyListMenuHandler"
+			android:src="@drawable/nearby_list"
+			android:paddingBottom="15dip"
+			android:background="@null" />
 		<ImageButton android:id="@+id/friends"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
