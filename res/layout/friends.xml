@@ -6,35 +6,48 @@
 	android:background="@color/white"
 	android:id="@+id/friends">
 	
-	<include android:id="@+id/topbb2" layout="@layout/topbar" />
+	<include android:id="@+id/topbb2" layout="@layout/topbar_noreload" />
 
-	<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+	<TabHost
 		android:id="@+id/tabhost"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent">
 		<LinearLayout android:orientation="vertical"
-			android:layout_width="fill_parent" android:layout_height="fill_parent">
-			<View android:layout_width="fill_parent" android:layout_height="0.5dip"
+			android:layout_width="fill_parent" 
+			android:layout_height="fill_parent">
+			<View android:layout_width="fill_parent" 
+				android:layout_height="0.5dip"
 				android:background="#000" />
 			<TabWidget android:id="@android:id/tabs"
-				android:layout_width="fill_parent" android:layout_height="wrap_content"
-				android:layout_marginLeft="0dip" android:layout_marginRight="0dip" />
-			<View android:layout_width="fill_parent" android:layout_height="2dip"
+				android:layout_width="fill_parent" 
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="0dip" 
+				android:layout_marginRight="0dip" />
+			<View android:layout_width="fill_parent" 
+				android:layout_height="2dip"
 				android:background="#696969" />
-			<View android:layout_width="fill_parent" android:layout_height="2dip"
+			<View android:layout_width="fill_parent" 
+				android:layout_height="2dip"
 				android:background="#000" />
 			<FrameLayout android:id="@android:id/tabcontent"
-				android:layout_width="fill_parent" android:layout_height="fill_parent"
+				android:layout_width="fill_parent" 
+				android:layout_height="fill_parent"
 				android:paddingTop="-6dip">
-				<ListView android:id="@+id/friendslist" android:layout_width="fill_parent"
-					android:layout_height="wrap_content" android:layout_weight="1"
+				<ListView android:id="@+id/friendslist" 
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content" 
+					android:layout_weight="1"
 					android:divider="@color/lightdiv"
+					android:fadingEdge="none"
 					android:dividerHeight="1dip"
 					android:visibility="invisible">
 				</ListView>
-				<ListView android:id="@+id/requests" android:layout_width="fill_parent"
-					android:layout_height="wrap_content" android:layout_weight="1"
+				<ListView android:id="@+id/requests" 
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content" 
+					android:layout_weight="1"
 					android:divider="@color/lightdiv"
+					android:fadingEdge="none"
 					android:dividerHeight="1dip"
 					android:visibility="invisible">
 				</ListView>

@@ -1,18 +1,13 @@
 package com.architects.helper;
 
-import com.architects.findme.R;
 import com.google.android.maps.GeoPoint;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.Toast;
 
 public class LocationHelper
@@ -21,7 +16,6 @@ public class LocationHelper
     private static final long MINIMUM_DISTANCE_CHANGE_FOR_UPDATES = 1; // in Meters
     private static final long MINIMUM_TIME_BETWEEN_UPDATES = 100; // in Milliseconds
     
-	private static final String TAG = "test";
     protected LocationManager locationManager;
     protected Context myContext;
     

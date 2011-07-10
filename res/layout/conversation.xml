@@ -11,16 +11,15 @@
 	<include layout="@layout/title" />
 	
 	<ListView
-	    xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:id="@+id/messageOverviewList"
 	    android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:layout_weight="1"
+		android:layout_height="wrap_content" 
+		android:layout_weight="1"
 		android:background="@color/white"
 		android:fadingEdge="none"
 		android:divider="@color/lightdiv"
 		android:dividerHeight="1dip">
 	</ListView>
 	
-	<include android:id="@+id/messageinputview" layout="@layout/message_input"
-		android:layout_gravity="bottom" />
+	<include layout="@layout/message_input" />
 </LinearLayout>

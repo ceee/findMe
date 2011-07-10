@@ -7,13 +7,13 @@
 	android:background="@color/white"
 	android:id="@+id/search">
 	
-	<include layout="@layout/topbar" />
+	<include layout="@layout/topbar_noreload" />
 	<include layout="@layout/title" />
 	
 	<ListView
-	    xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:id="@+id/searchList"
 	    android:layout_width="fill_parent"
+	    android:fadingEdge="none"
 		android:layout_height="wrap_content" android:layout_weight="1"
 		android:background="@color/white"
 		android:divider="@color/lightdiv"

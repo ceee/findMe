@@ -6,20 +6,34 @@
   android:layout_height="wrap_content"
   android:paddingTop="10dip"
   android:paddingBottom="10dip">
-  <ImageView
+  <LinearLayout
+	android:orientation="horizontal" 
+	android:layout_width="wrap_content"
+	android:paddingLeft="20dip"
+	android:layout_gravity="left|center_vertical"
+	android:layout_height="wrap_content">
+	<ImageView
 	   android:src="@drawable/findme_light"
 	   android:layout_width="wrap_content"
 	   android:layout_height="wrap_content"
-	   android:layout_gravity="left|center_vertical"
-	   android:paddingLeft="20dip"
+	   android:paddingRight="15dip"
 	   android:paddingTop="6dip"
 	   />
 	<ImageButton android:id="@+id/homebutton"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
+		android:layout_gravity="center_vertical"
 		android:onClick="enterMenuHandler"
 		android:src="@drawable/home_button"
-		android:layout_gravity="right|center_vertical"
-		android:paddingRight="20dip"
 		android:background="@null" />
+  </LinearLayout>
+  <ImageButton android:id="@+id/reloadbutton"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:paddingRight="20dip"
+		android:layout_gravity="right|center_vertical"
+		android:onClick="reloadHandler"
+		android:src="@drawable/reload_button"
+		android:background="@null" />
+
 </FrameLayout>

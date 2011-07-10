@@ -3,35 +3,33 @@ package com.architects.helper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.architects.findme.R;
-
-import android.content.SharedPreferences;
+import android.content.Context;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
 public class MessagesHelper 
 {
 	private static final String TAG = "test";
 	
-	public static JSONObject getConversationOverview(String user)
+	public static JSONObject getConversationOverview(String user, Context context)
 	{
 		JSONObject j = new JSONObject();
 		String params = "?type=overview&sender="+user;
-        j = AccountHelper.doHttpGet("get_message.php", params);
+		Log.v(TAG, "XXX 0.5");
+        j = RequestHelper.doHttpGet("get_message.php", context, params);
         
         return j;
 	}
 	
-	public static JSONObject getConversation(String user, String partner)
+	public static JSONObject getConversation(String user, String partner, Context context)
 	{
 		JSONObject j = new JSONObject();
 		String params = "?type=conversation&sender="+user+"&receiver="+partner;
-        j = AccountHelper.doHttpGet("get_message.php", params);
+        j = RequestHelper.doHttpGet("get_message.php", context, params);
         
         return j;
 	}
 	
-	public static String insertMessage(String sender, String receiver, String message)
+	public static String insertMessage(String sender, String receiver, String message, Context context)
 	{
 		JSONObject j = new JSONObject();
         try
@@ -40,7 +38,7 @@ public class MessagesHelper
 			j.put("receiver", receiver);
 			j.put("message", message);
 
-			return AccountHelper.doHttpPost("message.php", j);
+			return RequestHelper.doHttpPost("message.php", context, j);
         }
         catch (JSONException e)
         {

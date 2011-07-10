@@ -5,16 +5,14 @@
 	android:background="@color/white"
 	android:id="@+id/profile">
 
-	<include layout="@layout/topbar" />
+	<include layout="@layout/topbar_noreload" />
 	<include layout="@layout/title" />
 
 	<ScrollView 
-	 xmlns:android="http://schemas.android.com/apk/res/android"
      android:layout_width="fill_parent" 
      android:fadingEdge="none"
      android:layout_height="fill_parent"> 
      	<LinearLayout
-			 xmlns:android="http://schemas.android.com/apk/res/android"
 		     android:layout_width="fill_parent"  
 		     android:orientation="vertical"
 		     android:background="@color/white"

@@ -1,25 +1,28 @@
 package com.architects.helper;
 
+import java.util.ArrayList;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.architects.findme.R;
-
-import android.content.SharedPreferences;
+import android.content.Context;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
 public class FriendsHelper 
 {
 	private static final String TAG = "test";
+	public static String[] mails = null;
 	
-	public static String[] getFriendsList(String user)
+	public static ArrayList<Spanned> getFriendsList(String user, Context context)
 	{
 		JSONObject j = new JSONObject();
 		String params = "?user="+user+"&type=friends";
-        j = AccountHelper.doHttpGet("get_friends.php", params);
+        j = RequestHelper.doHttpGet("get_friends.php", context, params);
         
-        String[] friends = new String[j.length()]; 
+        ArrayList<Spanned> friends = new ArrayList<Spanned>();
+        mails = new String[j.length()];
         
         try {
 	        JSONObject json_data = null;
@@ -30,21 +33,21 @@ public class FriendsHelper
 	        	x = (new Integer(i)).toString();      	
 	        	json_data = j.getJSONObject(x);
 	        	
-	        	friends[i] = json_data.getString("name") + "\n" + json_data.getString("id");
+	        	friends.add(Html.fromHtml(json_data.getString("name") + "<br>" + json_data.getString("id")));
 	        }
 	        return friends;
         }
-        catch(Exception e) { return new String[0];}
+        catch(Exception e) { return new ArrayList<Spanned>();}
 	}
 	
-	public static String[] getRequestsList(String user)
+	public static ArrayList<Spanned> getRequestsList(String user, Context context)
 	{
 		JSONObject j = new JSONObject();
 		String params = "?user="+user+"&type=requests";
-        j = AccountHelper.doHttpGet("get_friends.php", params);
+        j = RequestHelper.doHttpGet("get_friends.php", context, params);
 		Log.v(TAG, j.toString());
         
-        String[] friends = new String[j.length()]; 
+		ArrayList<Spanned> friends = new ArrayList<Spanned>(); 
         Log.v(TAG, "Länge:"+j.length());
         
         try {
@@ -55,15 +58,20 @@ public class FriendsHelper
 	        {
 	        	x = (new Integer(i)).toString();      	
 	        	json_data = j.getJSONObject(x);
+
+	        	mails[i] = json_data.getString("mail");
 	        	
-	        	friends[i] = json_data.getString("mail");
+	        	friends.add(Html.fromHtml(json_data.getString("mail")));
 	        }
 	        return friends;
         }
-        catch(Exception e) { return new String[0];}
+        catch(Exception e) { 
+        	e.printStackTrace();
+        	return new ArrayList<Spanned>();
+        }
 	}
 	
-	public static String request(String type, String sender, String receiver)
+	public static String request(String type, String sender, String receiver, Context context)
 	{
 		JSONObject j = new JSONObject();
         try
@@ -72,7 +80,7 @@ public class FriendsHelper
 			j.put("receiver", receiver);
 			j.put("type", type);
 
-			return AccountHelper.doHttpPost("friend.php", j);
+			return RequestHelper.doHttpPost("friend.php", context, j);
         }
         catch (JSONException e)
         {
@@ -81,9 +89,12 @@ public class FriendsHelper
         }
 	}
 	
-	public static JSONObject getUserInfo(String user)
+	public static JSONObject getUserInfo(String user, Context context)
 	{
 		String params = "?user="+user;
-        return AccountHelper.doHttpGet("get_user_info.php", params);
+        JSONObject j = RequestHelper.doHttpGet("get_user_info.php", context, params);
+        Log.v(TAG, j.toString());
+        return j;
+        //return j.g;
 	}
 }

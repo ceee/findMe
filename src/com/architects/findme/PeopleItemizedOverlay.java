@@ -2,17 +2,10 @@ package com.architects.findme;
 
 import java.util.ArrayList;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.EditText;
-
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
 
@@ -21,7 +14,6 @@ public class PeopleItemizedOverlay extends ItemizedOverlay
 {
 	private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
 	private Context mContext;
-	private static final String TAG = "findMe";
 
 	public PeopleItemizedOverlay(Drawable defaultMarker, Context context) {
 		super(boundCenterBottom(defaultMarker));
@@ -41,7 +33,7 @@ public class PeopleItemizedOverlay extends ItemizedOverlay
 	
 	@Override
 	protected boolean onTap(int index) {
-	  OverlayItem item = mOverlays.get(index);
+	  //OverlayItem item = mOverlays.get(index);
 	  
 	  Bundle bundle = new Bundle();
 	  bundle.putString("mail", "klika@live.at");

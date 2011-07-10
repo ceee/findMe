@@ -83,7 +83,7 @@ public class MapNearby extends MapActivity
         // show people marker
         itemizedoverlay = new PeopleItemizedOverlay(marker, MapNearby.this);
         
-        JSONObject json = AccountHelper.doHttpGet("get_online_user.php");
+        JSONObject json = RequestHelper.doHttpGet("get_online_user.php", this);
         //String[] onlineUser = new String[json.length()]; 
         
         

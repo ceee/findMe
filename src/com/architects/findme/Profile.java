@@ -1,10 +1,7 @@
 package com.architects.findme;
 
-import org.json.JSONObject;
-
 import com.architects.helper.*;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -31,17 +28,13 @@ public class Profile extends Activity
 
         setContentView(R.layout.profile);
         
-        
-        // get conversation partner
+
         Bundle bundle = this.getIntent().getExtras();
         userMail = bundle.getString("mail");
         userName = bundle.getString("name");
         
         Log.v(TAG, userMail+" ---"+userName);
-        
-        // JSONObject j = FriendsHelper.getUserInfo(mail);
-        
-        
+
         // set title bar
         TextView title = (TextView) findViewById(R.id.titleText);
         title.setText("Profile");
@@ -82,7 +75,7 @@ public class Profile extends Activity
     public void addHandler(String title)
     {
     	String[] logPref = AccountHelper.getLoginPreferences(this);
-    	String response = FriendsHelper.request("request", logPref[0], userMail).trim();
+    	String response = FriendsHelper.request("request", logPref[0], userMail, this).trim();
     	
     	if(response.compareTo("01") == 0)
     		response = "Request sent!";

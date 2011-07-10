@@ -4,14 +4,13 @@
     android:layout_width="fill_parent"  
     android:orientation="vertical"  
     android:id="@+id/findmemenu"
-    android:background="@drawable/dark"
+    android:background="@drawable/background"
     android:layout_height="fill_parent"
     android:padding="20dip">  
 
 	<include layout="@layout/logo" />
 
 	<LinearLayout  
-		xmlns:android="http://schemas.android.com/apk/res/android"  
 	    android:layout_width="fill_parent"  
 	    android:orientation="vertical"
 	    android:layout_height="fill_parent"

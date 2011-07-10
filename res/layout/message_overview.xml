@@ -11,7 +11,6 @@
 	<include android:id="@+id/title2138" layout="@layout/title" />
 	
 	<ListView
-	    xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:id="@+id/messageOverviewList"
 	    android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:layout_weight="1"

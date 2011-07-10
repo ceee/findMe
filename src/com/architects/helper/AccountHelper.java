@@ -1,99 +1,14 @@
 package com.architects.helper;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.protocol.HTTP;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 public class AccountHelper 
 {
-	private static final String TAG = "findme";
 	public static final String PREFS_NAME = "LoginCredentials";
-	
-	public static String doHttpPost(String url_end, JSONObject j)
-	{
-		String url = "http://www.artistandarchitects.at/findme/" + url_end;
-		
-		HttpClient client = new DefaultHttpClient();
-	    HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000);
-	    HttpResponse response;
-	    
-	    try
-	    {
-	        HttpPost post = new HttpPost(url);
-	        
-	        post.setHeader("json", j.toString());
-	        
-	        StringEntity se = new StringEntity(j.toString());
-	        se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-	        post.setEntity(se);
-	        
-	        response = client.execute(post);
-	        if (response != null) 
-	        {
-	            InputStream in = response.getEntity().getContent();
-	            return convertStreamToString(in);
-	        }
-	    } 
-	    catch (Exception e) 
-	    {
-	        e.printStackTrace();
-	    }
-	    return "";
-	}
-	
-	public static JSONObject doHttpGet(String url_end)
-	{
-		return doHttpGet(url_end, "");
-	}
-	
-	public static JSONObject doHttpGet(String url_end, String params)
-	{
-		String url = "http://www.artistandarchitects.at/findme/" + url_end;
-		
-		if(params != "") url += params;
-		
-		HttpClient client = new DefaultHttpClient();
-	    HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000);
-	    HttpResponse response;
-	    
-	    try
-	    {
-	        HttpGet httpGet = new HttpGet(url);
-	        
-	        response = client.execute(httpGet);
-	        if (response != null) 
-	        {
-	            InputStream in = response.getEntity().getContent();
-	            JSONObject json=new JSONObject(convertStreamToString(in));
-	            Log.i("HttpGet Response: ",convertStreamToString(in));  
-	            return json;
-	        }
-	    } 
-	    catch (Exception e) 
-	    {
-	        e.printStackTrace();
-	    }
-	    return new JSONObject();
-	}
-	
 	
 	public static Boolean isLogged(Context c) 
 	{
@@ -128,62 +43,62 @@ public class AccountHelper
         return (isLogged(c)) ? false : true;
 	}
 	
+	public static String login(String[] str, Context context)
+	{
+		JSONObject j = new JSONObject();
+        try
+        {
+			j.put("mail", str[0]);
+			j.put("password", StandardHelper.createHashMd5(str[1]));
+			j.put("status", str[2]);
+			
+			j.put("longitude", -122.084095);
+			j.put("latitude", 37.422006);
+
+			return RequestHelper.doHttpPost("login_user.php", context, j);
+        }
+        catch (JSONException e)
+        {
+        	e.printStackTrace();
+        	return "";
+        }
+	}
+	
+	public static String logout(String[] str, Context context)
+	{
+		JSONObject j = new JSONObject();
+        
+        try
+        {
+			j.put("mail", str[0]);
+			j.put("password", StandardHelper.createHashMd5(str[1]));
+			j.put("logout", "01");
+
+			return RequestHelper.doHttpPost("login_user.php", context, j);
+        }
+        catch (JSONException e)
+        {
+        	e.printStackTrace();
+        	return "";
+        }
+	}
 	
 	
-    public static String createHashMd5(String str) 
-    {
-        try 
+	public static String register(String[] str, Context context)
+	{
+        JSONObject j = new JSONObject();
+        try
         {
-            // Create MD5 Hash
-            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
-            digest.update(str.getBytes());
-            byte messageDigest[] = digest.digest();
-            
-            // Create Hex String
-            StringBuffer hexString = new StringBuffer();
-            for (int i=0; i<messageDigest.length; i++)
-            {
-                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
-            }
-            return hexString.toString();
-            
-        } 
-        catch (NoSuchAlgorithmException e) 
-        {
-            e.printStackTrace();
+	        j.put("name", str[0]);
+			j.put("mail", str[1]);
+			j.put("password", StandardHelper.createHashMd5(str[2]));
+			
+			return RequestHelper.doHttpPost("register_user.php", context, j);
         }
-        return "";
-    }
-    
-    public static String convertStreamToString(InputStream is) 
-    {
-
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        StringBuilder sb = new StringBuilder();
-
-        String line = null;
-        try 
+        catch (JSONException e)
         {
-            while ((line = reader.readLine()) != null) 
-            {
-                sb.append(line + "\n");
-            }
-        } 
-        catch (IOException e) 
-        {
-            e.printStackTrace();
-        } 
-        finally 
-        {
-            try 
-            {
-                is.close();
-            } 
-            catch (IOException e) 
-            {
-                e.printStackTrace();
-            }
+        	e.printStackTrace();
+        	return "";
         }
-        return sb.toString();
-    }
+	}
 }

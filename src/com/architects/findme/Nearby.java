@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import com.architects.findme.R;
 import com.architects.helper.*;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -46,7 +47,19 @@ public class Nearby extends Activity {
                 new MyLocationListener()
         );
         
-        JSONObject json = AccountHelper.doHttpGet("get_online_user.php");
+        load();
+	}
+	
+	public void reloadHandler(View v)
+	{
+		load();
+	}	
+	
+	private void load()
+	{ 
+        String[] logPref = AccountHelper.getLoginPreferences(this);
+        String params = "?mail=" + logPref[0];
+        JSONObject json = RequestHelper.doHttpGet("get_online_user.php", this, params);
         String[] onlineUser = new String[json.length()]; 
         
         final String[] mails = new String[json.length()];
@@ -68,8 +81,7 @@ public class Nearby extends Activity {
 	        	
 	        	Location location2 = new Location("");
 		        location2.setLatitude(json_data.getDouble("latitude"));
-		        location2.setLongitude(json_data.getDouble("longitude"));
-		        Log.v(TAG, "X: "+json_data.getDouble("latitude"));
+		        location2.setLongitude(json_data.getDouble("longitude"));;
 	        	
 	        	float distance = location.distanceTo(location2);
 	        	String me = null;
@@ -81,7 +93,6 @@ public class Nearby extends Activity {
         			me = dis + " km";
         		}
 	        	else me = distance + " m";
-	        	Log.v(TAG, me);
 	        	
 	        	mails[i] = json_data.getString("mail");
 	        	names[i] = json_data.getString("name");

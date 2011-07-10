@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="fill_parent"
-  android:background="@color/transparent"
-  android:layout_height="wrap_content"
-  android:paddingTop="20dip"
-  android:paddingBottom="35dip">
+
   <ImageView
+  	   xmlns:android="http://schemas.android.com/apk/res/android"
 	   android:src="@drawable/findme_light"
 	   android:layout_width="wrap_content"
 	   android:layout_height="wrap_content"
 	   android:layout_gravity="center_horizontal"
+	   android:paddingTop="20dip"
+  	   android:paddingBottom="35dip"
+  	   android:id="@+id/logo"
 	   />
-</FrameLayout>

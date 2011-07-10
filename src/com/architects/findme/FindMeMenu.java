@@ -26,7 +26,7 @@ public class FindMeMenu extends Activity
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         
-        setContentView(R.layout.findmemenu);
+        this.setContentView(R.layout.findmemenu);
     }
 	
 	// Handler
@@ -99,16 +99,16 @@ public class FindMeMenu extends Activity
     	logoutData[0] = preferences.getString("mail", "");
     	logoutData[1] = preferences.getString("password", "");
         
-        String response = Login.logout(logoutData).trim();
+        String response = AccountHelper.logout(logoutData, this).trim();
         Log.v(TAG, response);
         if(response.compareTo("06") == 0)
         {
         	if(AccountHelper.clearLoginPreferences(this))
         	{
 	            Toast.makeText(button.getContext(), "Logout successful", Toast.LENGTH_LONG).show();
-	        	Intent myIntent = new Intent(button.getContext(), Main.class);
+	            finish();
+	            Intent myIntent = new Intent(button.getContext(), Main.class);
 	        	startActivity(myIntent);
-	        	finish();
         	}
         }
         else Toast.makeText(this, "Logout failed. Try again!", Toast.LENGTH_LONG).show(); 

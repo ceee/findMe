@@ -1,21 +1,31 @@
 package com.architects.findme;
 
+import java.util.ArrayList;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.architects.findme.R;
 import com.architects.helper.*;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -26,14 +36,16 @@ import android.widget.Toast;
 
 public class Friends extends Activity {
 	private TabHost mTabHost;
-	// The two views in our tabbed example
 	private ListView friends;
 	private ListView requests;
 	public static final String PREFS_NAME = "LoginCredentials";
+	private String mail = null;
+	public ProgressDialog loadingDialog;
+	private ArrayAdapter<Spanned> friendsAdapter;
+	private ArrayAdapter<Spanned> requestsAdapter;
+	private ArrayList<Spanned> friendslist = null;
+	private ArrayList<Spanned> requestslist = null;
 	
-	public String mymail;
-	//private static final String TAG = "findme";
-
 	private void setupTabHost() {
 		mTabHost = (TabHost) findViewById(R.id.tabhost);
 		mTabHost.setup();
@@ -45,62 +57,108 @@ public class Friends extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.friends);
 		
-		setupTabHost();
-
-		// setup list views
-		friends = (ListView) findViewById(R.id.friendslist);
-		requests = (ListView) findViewById(R.id.requests);
-
-        // get mail
+		// get mail
         SharedPreferences preferences = this.getSharedPreferences(PREFS_NAME, MODE_WORLD_READABLE);
-        String mail = preferences.getString("mail", "");
-        mymail = mail;
-        
-        String[] friendslist = FriendsHelper.getFriendsList(mail);
-        String[] requestslist = FriendsHelper.getRequestsList(mail);
-		friends.setAdapter(new ArrayAdapter<String>
-        	(this, R.layout.nearby_list_item, R.id.nearby_list_text, friendslist));
-		requests.setAdapter(new ArrayAdapter<String>
-			(this, R.layout.nearby_list_item,R.id.nearby_list_text, requestslist));
-        
-        
-		setupTab(friends, "Friends");
-		setupTab(requests, "Requests");
+        mail = preferences.getString("mail", "");
 		
+		load();
+	}
+	
+	private void load()
+	{
+		loadingDialog = ProgressDialog.show(this, null, " Loading ...", true);
 		
-		requests.setOnItemClickListener(new OnItemClickListener() {
-	          public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-	        	  	TextView me = (TextView) view.findViewById(R.id.nearby_list_text);
-	        	  	final String mail = (String) me.getText();
-	        	  	
-	        	    final AlertDialog.Builder alertbox = new AlertDialog.Builder(Friends.this);
-		          	LayoutInflater factory = LayoutInflater.from(Friends.this);
-		          	final View input = factory.inflate(R.layout.request_dialog, null);
-		          	
-		          	alertbox.setTitle("Friend Request");
-		          	alertbox.setView(input);
+		new Thread(new Runnable(){
+			public void run(){
+				setupTabHost();
+		
+				// setup list views
+				friends = (ListView) findViewById(R.id.friendslist);
+				requests = (ListView) findViewById(R.id.requests);
+		        
+		        friendslist = FriendsHelper.getFriendsList(mail, Friends.this);
+		        requestslist = FriendsHelper.getRequestsList(mail, Friends.this);
+		        
+		        Looper.prepare();
+		        uiCallback.sendEmptyMessage(0);
+			}
+		}).start();
+	}
 	
-		          	alertbox.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
-		          	    public void onClick(DialogInterface dialog, int whichButton) {
-		          	    	FriendsHelper.request("add", mail, mymail);
-		          	    	FriendsHelper.request("decline", mail, mymail);
-
-		          	    	Toast.makeText(Friends.this, "Friend successfully added!", Toast.LENGTH_LONG).show();
-		          	    }
-		          	});
-	
-		          	alertbox.setNegativeButton("Decline",
+	private Handler uiCallback = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+        		
+        	friendsAdapter = new ArrayAdapter<Spanned>
+				(Friends.this, R.layout.nearby_list_item, R.id.nearby_list_text, friendslist);
+        	friends.setAdapter(friendsAdapter);
+        	
+        	requestsAdapter = new ArrayAdapter<Spanned>
+				(Friends.this, R.layout.nearby_list_item, R.id.nearby_list_text, requestslist);
+	    	requests.setAdapter(requestsAdapter);
+	        
+			setupTab(friends, "Friends");
+			setupTab(requests, "Requests");
+			
+			requests.setOnItemClickListener(new OnItemClickListener() {
+		          public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+		        	  	final String mymail = FriendsHelper.mails[position];
+		        	  	
+		        	    final AlertDialog.Builder alertbox = new AlertDialog.Builder(Friends.this);
+			          	LayoutInflater factory = LayoutInflater.from(Friends.this);
+			          	final View input = factory.inflate(R.layout.request_dialog, null);
+			          	
+			          	alertbox.setTitle("Friend Request");
+			          	alertbox.setView(input);
+		
+			          	alertbox.setPositiveButton("Accept", 
+			          		new DialogInterface.OnClickListener() {
+				          	    public void onClick(DialogInterface dialog, int whichButton) {
+				          	    	String response = FriendsHelper.request("add", mymail, mail, Friends.this).trim();
+				          	    	
+			          	    		if(response.compareTo("01") == 0)
+			          	    		{
+			          	    			requestslist.remove(position);
+					            		requestsAdapter.notifyDataSetChanged();
+					            		
+					            		JSONObject userInfo = FriendsHelper.getUserInfo(mymail, Friends.this);
+					            		
+					            		try {
+											friendslist.add(Html.fromHtml
+												(userInfo.getString("name") + "<br>" + userInfo.getString("uid")));
+										} catch (JSONException e) {}
+					            		friendsAdapter.notifyDataSetChanged();
+					            		
+					            		Toast.makeText(Friends.this, "Friend successfully added!", Toast.LENGTH_LONG).show();
+			          	    		}
+			          	    		else
+			          	    			Toast.makeText(Friends.this, "Error", Toast.LENGTH_LONG).show();
+				          	    }
+				          	});
+		
+			          	alertbox.setNegativeButton("Decline",
 		          	        new DialogInterface.OnClickListener() {
 		          	            public void onClick(DialogInterface dialog, int whichButton) {
-				          	    	FriendsHelper.request("decline", mail, mymail);
+		          	            	String response = FriendsHelper.request("decline", mymail, mail, Friends.this).trim();
 				          	    	
-				          	    	Toast.makeText(Friends.this, "Friend request declined!", Toast.LENGTH_LONG).show();
+		          	            	if(response.compareTo("01") == 0)
+			          	    		{
+					          	    	requestslist.remove(position);
+					            		requestsAdapter.notifyDataSetChanged();
+				          	    	
+					            		Toast.makeText(Friends.this, "Friend request declined!", Toast.LENGTH_LONG).show();
+			          	    		}
+		          	            	else
+		          	            		Toast.makeText(Friends.this, "Error", Toast.LENGTH_LONG).show();
 		          	            }
 		          	        });
-		          	alertbox.show();
-	          }
-		});
-	}
+			          	alertbox.show();
+		          }
+			});
+	        
+        	loadingDialog.dismiss();
+        }
+	};
 
 	private void setupTab(final View view, final String tag) {
 		View tabview = createTabView(mTabHost.getContext(), tag);

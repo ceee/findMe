@@ -18,17 +18,18 @@
 	   android:layout_marginRight="10dip"
 	   android:layout_gravity="center_vertical"
 	   />
-	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	<LinearLayout
 		android:orientation="vertical" 
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:background="@color/transparent">
-		<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+		<TextView
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"
 		    android:text="Name"
 		    android:id="@+id/message_overview_text"
 		    android:textSize="16sp"
+		    android:background="@color/transparent"
 		    android:textColor="@color/contentdark" 
 		/>
 	</LinearLayout>
